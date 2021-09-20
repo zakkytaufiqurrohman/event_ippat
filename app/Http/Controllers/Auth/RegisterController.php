@@ -28,7 +28,7 @@ class RegisterController extends Controller
     }
 
     public function cekNama(Request $request){
-        $sk = Sk::where('nama',strtolower($request->nama))->where('pengda_id',$request->pengda)->first();
+        $sk = Sk::where('nick_name',strtolower($request->nama))->where('pengda_id',$request->pengda)->first();
         if(empty($sk->nama)){
             return response()->json(0);
         }
@@ -40,7 +40,7 @@ class RegisterController extends Controller
 
     public function register(Request $request){
 
-        $data = Sk::where('pengda_id',$request->pengda)->where('no_sk',$request->no_sk)->where('nama',$request->nama)->first();
+        $data = Sk::where('pengda_id',$request->pengda)->where('no_sk',$request->no_sk)->where('nick_name',$request->nama)->first();
         if(empty($data)){
             return response()->json(['status' => 'error', 'message' => 'Maaf Anda Tidak Terdaftar Hub Panitia']);
         }
@@ -94,7 +94,10 @@ class RegisterController extends Controller
             //tail wa
             $wa = $request->wa;
             if(substr($wa,1) == 0) {
-                $wa = '+62'.$wa;
+                $wa = '62'.substr($wa, 1);
+            }
+            if(substr($wa,1) == '+') {
+                $wa = substr($wa, 1);
             }
 
             // tail kode
@@ -121,21 +124,27 @@ class RegisterController extends Controller
                 $pengda = 'Z';
             }
             $kode = strtoupper(substr($pengda,0,1)).strtoupper(substr($request->no_sk,0,2)).$ids;
+
+            // get name 
+            $gelar = Sk::where('nick_name',strtolower($request->nama))->first();
+            if(!empty($gelar)){
+                $nama = $gelar->nama;
+            }
+            else {
+                $nama = $request->nama;
+            }
             // store
             Pendaftar::create([
                 'kode' => $kode,
-                'pengda' => $request->pengda,
-                'wa' => $request->wa,
+                'pengda_id' => $request->pengda,
+                'wa' => $wa,
                 'email' => $request->email,
-                'nama' => $request->nama,
+                'nama' => $nama,
                 'ktp' => $request->ktp,
                 'no_sk' => $request->no_sk,
                 'img_sk' => $nama_file_sk,
                 'img_foto' => $nama_file_foto,
                 'img_bukti' => $nama_file_bukti,
-                'daftar_ulang' => '0',
-                'surat_suara' => '0',
-                'kotak_suara' => '0',
             ]);
 
             DB::commit();

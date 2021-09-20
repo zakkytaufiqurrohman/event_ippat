@@ -11,7 +11,7 @@ class Pendaftar extends Model
     
     protected $fillable = [
         'kode',
-        'pengda',
+        'pengda_id',
         'wa',
         'email',
         'nama' ,
@@ -24,4 +24,8 @@ class Pendaftar extends Model
         'surat_suara',
         'kotak_suara',
     ];
+
+    public function getPengda() {
+        return $this->belongsTo(Pengda::class,'pengda_id','id');
+    }
 }

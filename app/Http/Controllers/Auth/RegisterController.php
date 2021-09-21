@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Sk;
+use App\Models\Data;
 use App\Models\Pengda;
 use App\Models\Pendaftar;
-
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\Crypt;
 use App\Mail\SendEmail;
 use Illuminate\Support\Facades\Mail;
 
@@ -28,25 +29,25 @@ class RegisterController extends Controller
     }
 
     public function cekNama(Request $request){
-        $sk = Sk::where('nick_name',strtolower($request->nama))->where('pengda_id',$request->pengda)->first();
+        $sk = Data::where('nick_name',strtolower($request->nama))->where('pengda_id',$request->pengda)->first();
         if(empty($sk->nama)){
             return response()->json(0);
         }
         else {
-            return response()->json($sk->no_sk);
+            return response()->json(Crypt::decryptString($sk->no_sk));
         }
 
     }
 
     public function register(Request $request){
 
-        $data = Sk::where('pengda_id',$request->pengda)->where('no_sk',$request->no_sk)->where('nick_name',$request->nama)->first();
+        $data = Data::where('pengda_id',$request->pengda)->where('nick_name',$request->nama)->first();
         if(empty($data)){
             return response()->json(['status' => 'error', 'message' => 'Maaf Anda Tidak Terdaftar Hub Panitia']);
         }
         $this->validate($request,[
             'pengda' => 'required|max:255',
-            'nama' => 'required|min:2|max:255|unique:Pendaftars',
+            'nama' => 'required|min:2|max:255|unique:Pendaftars,nick_name',
             'no_sk' => 'required|min:2',
             'wa' => 'required|min:2',
             'email' => 'required|min:2',
@@ -93,10 +94,10 @@ class RegisterController extends Controller
 
             //tail wa
             $wa = $request->wa;
-            if(substr($wa,1) == 0) {
+            if(substr($wa,0,1) == 0) {
                 $wa = '62'.substr($wa, 1);
             }
-            if(substr($wa,1) == '+') {
+            if(substr($wa,0,1) == '+') {
                 $wa = substr($wa, 1);
             }
 
@@ -123,10 +124,10 @@ class RegisterController extends Controller
             else {
                 $pengda = 'Z';
             }
-            $kode = strtoupper(substr($pengda,0,1)).strtoupper(substr($request->no_sk,0,2)).$ids;
+            $kode = strtoupper(substr($pengda,0,1)).strtoupper(substr($request->no_sk,-4)).$ids;
 
             // get name 
-            $gelar = Sk::where('nick_name',strtolower($request->nama))->first();
+            $gelar = Data::where('nick_name',strtolower($request->nama))->first();
             if(!empty($gelar)){
                 $nama = $gelar->nama;
             }
@@ -137,22 +138,23 @@ class RegisterController extends Controller
             Pendaftar::create([
                 'kode' => $kode,
                 'pengda_id' => $request->pengda,
-                'wa' => $wa,
-                'email' => $request->email,
+                'wa' => Crypt::encryptString($wa),
+                'email' => Crypt::encryptString($request->email),
                 'nama' => $nama,
-                'ktp' => $request->ktp,
-                'no_sk' => $request->no_sk,
+                'nick_name' => strtolower($request->nama),
+                'ktp' => Crypt::encryptString($request->ktp),
+                'no_sk' => Crypt::encryptString($request->no_sk),
                 'img_sk' => $nama_file_sk,
                 'img_foto' => $nama_file_foto,
                 'img_bukti' => $nama_file_bukti,
             ]);
 
-            DB::commit();
+          
             $details = [
-                'name' => $request->nama,
+                'name' =>  Crypt::decryptString($gelar->nama),
             ];
             Mail::to($request->email)->send(new SendEmail($details));
-
+            DB::commit();
             $sk->move(public_path('upload/sk'),$nama_file_sk);
             $foto->move(public_path('upload/foto'),$nama_file_foto);
             $bukti_tf->move(public_path('upload/bukti'),$nama_file_bukti);

@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PendaftarController;
-
+use App\Http\Controllers\DataController;
 
 
 /*
@@ -60,4 +60,20 @@ Route::name('pendaftar')->prefix('pendaftars')->group(function(){
 
 
 });
+
+// database sk
+
+// data pendaftar
+Route::name('data')->prefix('datas')->group(function(){
+    Route::get('/', [DataController::class,'index']);
+    Route::post('/', [DataController::class, 'store']);
+    Route::delete('/', [DataController::class, 'destroy'])->name('.delete');;
+    Route::put('/', [DataController::class, 'update'])->name('.update');
+    Route::get('/data', [DataController::class,'data'])->name('.data');
+    Route::post('/import', [DataController::class,'import'])->name('.import');
+    Route::get('/{id}/edit', [DataController::class,'edit'])->name('.edit');
+
+
+});
+
 //user

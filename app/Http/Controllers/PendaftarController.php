@@ -6,6 +6,8 @@ use App\Models\Pengda;
 use App\Models\Pendaftar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\Crypt;
 use DB;
 use DataTables;
 
@@ -25,7 +27,7 @@ class PendaftarController extends Controller
 
             return Datatables::of($data)
                     ->editColumn('action', function ($row) {
-                        $wa = "https://api.whatsapp.com/send?phone=".$row->wa."&text=From: Panitia Ikatan Pejabat Pembuat Akta Tanah (IPPAT) E-ID Card Klik disini:".env("HOST_ECARD", "www").$row->kode." NB: SIMPAN DULU NOMOR INI YA, SUPAYA BISA KLIK LINKNYA";
+                        $wa = "https://api.whatsapp.com/send?phone=".Crypt::decryptString($row->wa)."&text=From: Panitia Ikatan Pejabat Pembuat Akta Tanah (IPPAT) E-ID Card Klik disini:".env("HOST_ECARD", "www").$row->kode." NB: SIMPAN DULU NOMOR INI YA, SUPAYA BISA KLIK LINKNYA";
                         $action = '';
                         $action .= "<a href='javascript:void(0)' class='btn btn-icon btn-primary' data-id='{$row->id}' onclick='Edit(this);'><i class='fa fa-edit'></i></a>&nbsp;";
                         $action .= "<a href='javascript:void(0)' class='btn btn-icon btn-danger'  data-id='{$row->id}' onclick='Delete(this);'><i class='fa fa-trash'></i></a>&nbsp;";
@@ -41,6 +43,38 @@ class PendaftarController extends Controller
                             
                         
                         return $kodes;
+                    })
+                    ->editColumn('wa', function($row) {
+                        $wa = '';
+                        
+                        $wa .= Crypt::decryptString($row->wa);;
+                            
+                        
+                        return $wa;
+                    })
+                    ->editColumn('email', function($row) {
+                        $email = '';
+                        
+                        $email .= Crypt::decryptString($row->email);;
+                            
+                        
+                        return $email;
+                    })
+                    ->editColumn('no_sk', function($row) {
+                        $no_sk = '';
+                        
+                        $no_sk .= Crypt::decryptString($row->no_sk);;
+                            
+                        
+                        return $no_sk;
+                    })
+                    ->editColumn('nama', function($row) {
+                        $nama = '';
+                        
+                        $nama .= Crypt::decryptString($row->nama);;
+                            
+                        
+                        return $nama;
                     })
                     ->editColumn('foto', function($row) {
                         $url = asset("upload/foto/".$row->img_foto);
@@ -71,7 +105,8 @@ class PendaftarController extends Controller
                         
                         return $pengda;
                     })
-                    ->rawColumns(['action','kode','foto','bukti','sk'])
+                    ->rawColumns(['action','kode','foto','bukti','sk','email','wa','no_sk',
+                    'nama'])
                     ->addIndexColumn()
                     ->make(true);
         }

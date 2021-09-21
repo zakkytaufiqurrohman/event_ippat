@@ -15,6 +15,7 @@ class Pendaftar extends Model
         'wa',
         'email',
         'nama' ,
+        'nick_name' ,
         'ktp',
         'no_sk',
         'img_sk',

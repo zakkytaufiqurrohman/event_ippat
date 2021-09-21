@@ -226,7 +226,7 @@
                             message: result.message,
                             position: 'topRight'
                         });
-                        window.location = "/daftars/success";
+                        // window.location = "/daftars/success";
                     } else {
                         iziToast.error({
                             title: "Error",

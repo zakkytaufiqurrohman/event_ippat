@@ -5,7 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PendaftarController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\PengdaController;
-
+use App\Http\Controllers\CardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +33,7 @@ Route::get('/register', [RegisterController::class,'index']);
 
 
 Route::name('daftar')->prefix('daftars')->group(function(){
-    Route::get('/', [RoleController::class,'index']);
+    // Route::get('/', [RoleController::class,'index']);
     // Route::post('/', [RoleController::class, 'store']);
     // Route::delete('/', [RoleController::class, 'destroy']);
     // Route::put('/', [RoleController::class, 'update']);
@@ -89,5 +89,6 @@ Route::name('pengda')->prefix('pengdas')->group(function(){
 
 
 });
+Route::get('/card/{id}', [CardController::class,'index']);
 
 //user

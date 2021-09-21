@@ -56,7 +56,7 @@ Route::name('pendaftar')->prefix('pendaftars')->group(function(){
     // Route::get('/getPermission', [PendaftarController::class,'getPermission'])->name('.getPermission');
     Route::post('/cek_nama', [RegisterController::class,'cekNama'])->name('.cek_nama');
     Route::post('/register', [RegisterController::class,'register'])->name('.register');
-    Route::get('/success', [RegisterController::class,'success']);
+    Route::get('/success', [RegisterController::class,'success'])->name('success');
 
 
 });

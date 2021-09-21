@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PendaftarController;
 use App\Http\Controllers\DataController;
+use App\Http\Controllers\PengdaController;
 
 
 /*
@@ -72,6 +73,19 @@ Route::name('data')->prefix('datas')->group(function(){
     Route::get('/data', [DataController::class,'data'])->name('.data');
     Route::post('/import', [DataController::class,'import'])->name('.import');
     Route::get('/{id}/edit', [DataController::class,'edit'])->name('.edit');
+
+
+});
+
+// data pendaftar
+Route::name('pengda')->prefix('pengdas')->group(function(){
+    Route::get('/', [PengdaController::class,'index']);
+    Route::post('/', [PengdaController::class, 'store']);
+    Route::delete('/', [PengdaController::class, 'destroy'])->name('.delete');;
+    Route::put('/', [PengdaController::class, 'update'])->name('.update');
+    Route::get('/data', [PengdaController::class,'data'])->name('.data');
+    Route::post('/import', [PengdaController::class,'import'])->name('.import');
+    Route::get('/{id}/edit', [PengdaController::class,'edit'])->name('.edit');
 
 
 });

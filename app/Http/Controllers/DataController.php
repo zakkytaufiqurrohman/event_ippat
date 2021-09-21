@@ -81,8 +81,21 @@ class DataController extends Controller
         }
     }
 
-    public function import() 
+    public function import(Request $request) 
     {
+        $validator = Validator::make(
+            [
+                'file'      => $request->file,
+                'extension' => strtolower($request->file->getClientOriginalExtension()),
+            ],
+            [
+                'file'          => 'required',
+                'extension'      => 'required|in:xlsx,xls',
+            ]
+          );
+          if ($validator->fails()) {
+            return 'format salah';
+          }
         Excel::import(new DataImport,request()->file('file'));
              
         return back();

@@ -47,7 +47,7 @@ class RegisterController extends Controller
         }
         $this->validate($request,[
             'pengda' => 'required|max:255',
-            'nama' => 'required|min:2|max:255|unique:Pendaftars,nick_name',
+            'nama' => 'required|min:2|max:255|unique:pendaftars,nick_name',
             'no_sk' => 'required|min:2',
             'wa' => 'required|min:2',
             'email' => 'required|min:2',

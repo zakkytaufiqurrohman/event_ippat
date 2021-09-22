@@ -11,7 +11,7 @@ class CardController extends Controller
 {
     public function index($id){
         $kode = Crypt::decryptString($id);
-        $data = Pendaftar::where('kode',$kode)->first();
+        $data = Pendaftar::where('kode',$kode)->with('getPengda')->first();
         if(empty($data)){
             return 'Maaf Anda Tidak Terdaftar';
         }

@@ -25,8 +25,8 @@ class DataImport implements ToModel,WithHeadingRow
     */
     public function model(array $row)
     {
-        $name = preg_replace('/\s+/', '',$row['pengda']);
-        $pengdas = $this->pengda->where('nama',$name)->first();
+        // $name = preg_replace('/\s+/', '',$row['pengda']);
+        $pengdas = $this->pengda->where('nama',$row['pengda'])->first();
         $nick = explode(',',$row['nama']);
         return new Data([
             'pengda_id' => $pengdas->id ?? null,

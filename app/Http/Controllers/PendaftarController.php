@@ -10,6 +10,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
 use DB;
 use DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class PendaftarController extends Controller
 {

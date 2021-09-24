@@ -224,14 +224,14 @@
                         iziToast.success({
                             title: "success",
                             message: result.message,
-                            position: 'topRight'
+                            position: 'bottomRight'
                         });
                         window.location = "/daftars/success";
                     } else {
                         iziToast.error({
                             title: "Error",
                             message: result.message,
-                            position: 'topRight'
+                            position: 'bottomRight'
                         });
                     }
                 },

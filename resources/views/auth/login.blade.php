@@ -105,7 +105,7 @@
         function login() {
             var formData = $("#form-login").serialize();
             $.ajax({
-                url: "",
+                url: "{{route('login')}}",
                 type: "POST",
                 dataType: "json",
                 data: formData,
@@ -126,7 +126,7 @@
                             message: result.message,
                             position: 'topRight'
                         });
-                        window.location = "/";
+                        window.location = "/dashboard";
                     } else {
                         iziToast.error({
                             title: "Error",

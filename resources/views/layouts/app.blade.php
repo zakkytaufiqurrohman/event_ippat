@@ -43,7 +43,7 @@
                             <a href="javascript:void(0);" class="dropdown-item has-icon text-danger" onclick="event.preventDefault(); document.getElementById('form-logout').submit();">
                                 <i class="fas fa-sign-out-alt"></i> Logout
                             </a>
-                            <form id="form-logout" action="" method="POST" style="display: none;">
+                            <form id="form-logout" action="{{route('logout')}}" method="POST" style="display: none;">
                                 @csrf
                             </form>
                     </li>

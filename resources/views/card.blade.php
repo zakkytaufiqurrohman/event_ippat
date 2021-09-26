@@ -29,25 +29,25 @@
                 <div class="col-12 col-md-6 col-sm-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4><center>IPPAT E-Card</center></h4>
+                    <h4><center>E-CARD RAKORWIL IPPAT JATENG 2021</center></h4>
                   </div>
                   <div class="card-body">
                     <div class="empty-state" data-height="400">
-                    <img src="data:image/png;base64,{{DNS2D::getBarcodePNG($data->kode, 'QRCODE',10,10)}}"class="img-fluid img-thumbnail" alt="barcode" />
+                    <img src="data:image/png;base64,{{DNS2D::getBarcodePNG($data->kode, 'QRCODE',10,10)}}" class="img-fluid img-thumbnail" alt="barcode" />
 
                         <hr style="height:2px; width:50%; border-width:0; color:red; background-color:green">
                         <h2 style="margin-top:0px">{{$data->nama}}</h2>
 						
                       <!-- <div class="empty-state-icon"> -->
-                      <img src="{{asset('/upload/foto/'.$data->img_foto)}}" width="100px" heigth=100px" alt="barcode" data-holder-rendered="true" />
+                      <img src="{{asset('/upload/foto/'.$data->img_foto)}}" width="200px" heigth=100px" alt="barcode" data-holder-rendered="true" />
 
                         
                       <!-- </div> -->
                       <h2 class="badge badge-success">{{$data->kode}}</h2>
-                      <p class="lead">
+                      <p tyle="margin-top:0px">
                         {{$data->no_sk}}
                       </p>
-                      <p >
+                      <p tyle="margin-top:0px" >
                       {{$data->ktp}}
                       </p>
 					  <hr style="height:2px; width:95%; border-width:0; color:red; background-color:green">

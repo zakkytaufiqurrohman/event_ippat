@@ -16,7 +16,9 @@ class DataController extends Controller
 {
     public function index()
     {
-        // return Crypt::encryptString('zakky'); 
+        if(Auth::user()->level != 1){
+            return 'User Tidak punya akses';
+        }        
         $pengdas = Pengda::all();
         return view('data.index',compact('pengdas'));
     }

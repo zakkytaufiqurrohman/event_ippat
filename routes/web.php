@@ -100,6 +100,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/get/{id}', [ScanController::class,'index']);
         Route::get('/daftar_ulang', [ScanController::class,'daftar_ulang'])->name('.daftar_ulang');
         Route::post('/daftar_ulang', [ScanController::class, 'daftar_ulang_store'])->name('.daftar_ulang');
+        Route::get('/surat_suara', [ScanController::class,'surat_suara'])->name('.surat_suara');
+        Route::post('/surat_suara', [ScanController::class, 'surat_suara_store'])->name('.surat_suara');
     });
     
     // data admin

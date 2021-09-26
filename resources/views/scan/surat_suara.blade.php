@@ -15,7 +15,7 @@
 @endsection
 
 @section('body')
-@section('title','Scan Daftar Ulang')
+@section('title','Scan Surat Suara')
 <div class="row">
     <div class="col-12 col-md-12 col-lg-12">
         <div class="card">
@@ -67,7 +67,7 @@
             $('#info').empty();
 
             $.ajax({
-                url: "{{ route('scan.daftar_ulang') }}",
+                url: "{{ route('scan.surat_suara') }}",
                 type: "POST",
                 dataType: "json",
                 data: formData,

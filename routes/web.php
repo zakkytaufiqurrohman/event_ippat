@@ -7,6 +7,7 @@ use App\Http\Controllers\PendaftarController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\PengdaController;
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\ScanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,6 +90,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/data', [PengdaController::class,'data'])->name('.data');
         Route::post('/import', [PengdaController::class,'import'])->name('.import');
         Route::get('/{id}/edit', [PengdaController::class,'edit'])->name('.edit');
+
+
+    });
+
+    // data absen
+    Route::name('scan')->prefix('scan')->group(function(){
+        Route::get('/get/{id}', [ScanController::class,'index']);
+        Route::get('/daftar_ulang', [ScanController::class,'daftar_ulang'])->name('.daftar_ulang');
+        Route::post('/daftar_ulang', [ScanController::class, 'daftar_ulang_store'])->name('.daftar_ulang');
 
 
     });

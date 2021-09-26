@@ -102,6 +102,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/daftar_ulang', [ScanController::class, 'daftar_ulang_store'])->name('.daftar_ulang');
         Route::get('/surat_suara', [ScanController::class,'surat_suara'])->name('.surat_suara');
         Route::post('/surat_suara', [ScanController::class, 'surat_suara_store'])->name('.surat_suara');
+        Route::get('/kotak_suara', [ScanController::class,'kotak_suara'])->name('.kotak_suara');
+        Route::post('/kotak_suara', [ScanController::class, 'kotak_suara_store'])->name('.kotak_suara');
     });
     
     // data admin

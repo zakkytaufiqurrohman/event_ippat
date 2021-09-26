@@ -67,7 +67,7 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    // data pendaftar
+    // data 
     Route::name('data')->prefix('datas')->group(function(){
         Route::get('/', [DataController::class,'index']);
         Route::post('/', [DataController::class, 'store']);

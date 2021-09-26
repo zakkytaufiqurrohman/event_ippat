@@ -45,8 +45,8 @@
     </div>
 </div>
 <!-- Modal Add -->
-<div class="modal fade" tabindex="-1" role="dialog" id="modal-add">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-register">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Tambah Data pendaftar</h5>
@@ -54,26 +54,71 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="javascript:void(0)" id="form-add">
+            <form method="POST" action="javascript:void(0)" id="form-register">
             <div class="modal-body">
                 @csrf
+                <input type="hidden" class="form-control" value="flag" name="flag" id="flag" placeholder="flag" autocomplete="off">
                 <div class="form-group form-role">
-                    <label>Kanwil</label>
-                    <select class="form-control" name="kanwil_id" id="kanwil_id">
-                        @foreach($pengdas as $kanwil)
-                        <option value="{{ $kanwil->id }}" > {{ $kanwil->nama }}</option>
+                    <label>Pengda</label>
+                    <select class="form-control" name="pengda" id="pengda">
+                        @foreach($pengdas as $pengda)
+                        <option value="{{ $pengda->id }}" > {{ $pengda->nama }}</option>
                         @endforeach
                     </select>
                     <div class="invalid-feedback-custom"></div>
                 </div>
                 <div class="form-group">
                     <label>Nama</label>
-                    <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama" autocomplete="off">
+                    <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama Tanpa gelar" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>SK</label>
+                    <input type="text" class="form-control" name="no_sk" id="no_sk" placeholder="no_sk" autocomplete="off">
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label>NO WA</label>
+                        <input id="wa" type="text" class="form-control" required name="wa" >
+                        <span>*Patikan No benar (digunakan untuk E-Card)</span>
+
+                    </div>
+                    <div class="form-group col-6">
+                        <label>Email</label>
+                        <input id="email" type="email" class="form-control" required name="email"  >
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-6">
+                    <label>No KTP</label>
+                        <input id="ktp" type="number" class="form-control" required name="ktp" >
+
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="sk" class="d-block">Sk</label>
+                        <input id="sk" type="file" class="form-control" name="sk" required >
+                        <span>*Patikan foto terlihat jelas (Max 500 Kbps jpg/png)</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="foto" class="d-block">Foto Diri</label>
+                        <input id="foto" type="file" class="form-control" name="foto" required >
+                        <span>*Patikan foto terlihat jelas (Max 500 Kbps jpg/png)</span>
+                        <span>*Foto akan digunakan untuk verifikasi data</span>
+
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="bukti_tf" class="d-block">Bukti Transfer</label>
+                        <input id="bukti_tf" type="file" class="form-control" name="bukti_tf" required >
+                        <span>*Patikan foto terlihat jelas (Max 500 Kbps jpg/png)</span>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer bg-whitesmoke br">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button id="btn-register" type="submit" class="btn btn-primary">Simpan</button>
             </div>
             </form>
         </div>
@@ -94,19 +139,18 @@
             <div class="modal-body">
                 @csrf
                 @method('PUT')
-                <div class="form-group form-role">
-                    <label>Kanwil</label>
-                    <select class="form-control" name="kanwil_id" id="kanwil_edit">
-                        @foreach($pengdas as $kanwil)
-                        <option value="{{ $kanwil->id }}" > {{ $kanwil->nama }}</option>
-                        @endforeach
-                    </select>
-                    <div class="invalid-feedback-custom"></div>
-                </div>
                 <div class="form-group">
                     <label>Nama</label>
                     <input type="hidden" name="id" id="idEdit">
                     <input type="text" class="form-control" name="nama" id="namaEdit" placeholder="Nama" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Wa</label>
+                    <input type="text" class="form-control" name="wa"  placeholder="wa" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="text" class="form-control" name="email"  placeholder="email" autocomplete="off">
                 </div>
             </div>
             <div class="modal-footer bg-whitesmoke br">
@@ -131,10 +175,10 @@
         $(function () {
             GetData();
 
-            $("#form-add").on("submit", function(e) {
-                e.preventDefault();
-                AddData();
-            });
+            // $("#form-add").on("submit", function(e) {
+            //     e.preventDefault();
+            //     AddData();
+            // });
 
             $("#form-edit").on("submit", function(e) {
                 e.preventDefault();
@@ -178,7 +222,7 @@
         }
 
         function OpenModalAdd(){
-            $('#modal-add').modal('show');
+            $('#modal-register').modal('show');
         }
 
         function Edit(object){
@@ -196,19 +240,25 @@
                     var data = result['data'];
                     $('#modal-edit').find('input[name="id"]').val(data.id);
                     $('#modal-edit').find('input[name="nama"]').val(data.nama);
-                    $('#kanwil_edit').val(data.kanwil_id).change()
+                    $('#modal-edit').find('input[name="wa"]').val(data.wa);
+                    $('#modal-edit').find('input[name="email"]').val(data.email);
+
                 }
             });
         }
 
-        function AddData(){
-            var formData = $("#form-add").serialize();
-
+        $("#form-register").on("submit", function(e) {
+            e.preventDefault();
+            var form=$("body");
+                form.find('.invalid-feedback').remove();
+				$('input').removeClass('is-invalid');
             $.ajax({
-                url: "{{ route('pendaftar') }}",
+                url: "{{route('daftar.register')}}",
                 type: "POST",
-                dataType: "json",
-                data: formData,
+				dataType: "json",
+				data: new FormData(this),
+				processData: false,
+				contentType: false,
                 beforeSend() {
                     $("input").attr('disabled', 'disabled');
                     $("button").attr('disabled', 'disabled');
@@ -222,15 +272,17 @@
                     $("select").removeAttr('disabled', 'disabled');
                 },
                 success(result){
-                    $("#form-add")[0].reset();
-                    $('#modal-add').modal('hide');
-                    GetData();
-                                        
-                    iziToast.success({
-                        title: result.status,
-                        message: result.message,
-                        position: 'topRight'
-                    });
+                    if (result['status'] == 'success') {
+                        $("#form-register")[0].reset();
+                        $('#modal-register').modal('hide');
+                        GetData();
+                    } else {
+                        iziToast.error({
+                            title: "Error",
+                            message: result.message,
+                            position: 'bottomRight'
+                        });
+                    }
                 },
                 error(xhr, status, error) {
                     var err = eval('(' + xhr.responseText + ')');
@@ -246,14 +298,67 @@
                     })
                 }
             });
-        }
+        })
+        $("#nama").on('keyup', function(){
+			var pengda = $("#pengda").find(":selected").val();
+			console.log(pengda);
+			if(pengda === '0' || pengda.length == 0){
+				alert('penda belum di pilih');
+			}
+			var form=$("body");
+			form.find('.invalid-feedback').remove();
+			form.find('.form-group .is-invalid').removeClass('is-invalid');
+			var nama =  $(this).val();
+			$.ajax({
+				url: "{{route('daftar.cek_nama')}}",
+				type: "POST",
+				data :{
+					"pengda": pengda,
+					"nama":nama,
+					"_token": "{{ csrf_token() }}",
+				},
+				dataType: "json",
+				beforeSend() {
+                    $("#no_sk").addClass("btn-progress");
+                },
+                complete() {
+                    $("#no_sk").removeClass("btn-progress");
+                },
+				success: function(data) {
+					var form=$("body");
+					form.find('.invalid-feedback').remove();
+					form.find('.form-group .is-invalid').removeClass('is-invalid');
+					if(data == 0){
+						$("#no_sk").addClass('is-invalid').after('<div class="invalid-feedback">Nomor SK tidak terdaftar</div>');
+						$("#wa").prop('disabled',true);
+						$("#ktp").prop('disabled',true);
+						$("#sk").prop('disabled',true);
+						$("#foto").prop('disabled',true);
+						$("#bukti_tf").prop('disabled',true);
+						$("#email").prop('disabled',true);
+						$("#no_sk").val('')
+						$("#btn-register").prop('disabled',true);
+					}
+					else {
+						$("#wa").prop('disabled',false);
+						$("#ktp").prop('disabled',false);
+						$("#sk").prop('disabled',false);
+						$("#foto").prop('disabled',false);
+						$("#bukti_tf").prop('disabled',false);
+						$("#email").prop('disabled',false);
+						$("#btn-register").prop('disabled',false);
+						$("#no_sk").val(data)
+					}
+					
+				}
+			});
+		});
 
         function UpdateData(){
             var formData = $("#form-edit").serialize();
 
             var id = $('#idEdit').val();
-            var url = "{{ route('pendaftar.update', ':id') }}"
-            url = url.replace(':id',id);
+            var url = "{{ route('pendaftar.update') }}"
 
             $.ajax({
                 url: url,

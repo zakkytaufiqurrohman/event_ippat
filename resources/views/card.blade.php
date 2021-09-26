@@ -36,7 +36,7 @@
                     <img src="data:image/png;base64,{{DNS2D::getBarcodePNG($data->kode, 'QRCODE',10,10)}}"class="img-fluid img-thumbnail" alt="barcode" />
 
                         <hr style="height:2px; width:50%; border-width:0; color:red; background-color:green">
-                        <h2 style="margin-top:0px">{{Crypt::decryptString($data->nama)}}</h2>
+                        <h2 style="margin-top:0px">{{$data->nama}}</h2>
 						
                       <!-- <div class="empty-state-icon"> -->
                       <img src="{{asset('/upload/foto/'.$data->img_foto)}}" width="100px" heigth=100px" alt="barcode" data-holder-rendered="true" />
@@ -45,10 +45,10 @@
                       <!-- </div> -->
                       <h2 class="badge badge-success">{{$data->kode}}</h2>
                       <p class="lead">
-                        {{Crypt::decryptString($data->no_sk)}}
+                        {{$data->no_sk}}
                       </p>
                       <p >
-                      {{Crypt::decryptString($data->ktp)}}
+                      {{$data->ktp}}
                       </p>
 					  <hr style="height:2px; width:95%; border-width:0; color:red; background-color:green">
 

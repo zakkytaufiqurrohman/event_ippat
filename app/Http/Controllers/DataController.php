@@ -100,4 +100,54 @@ class DataController extends Controller
              
         return back();
     }
+
+    public function store(Request $request)
+    {
+        //
+        $validated = $request->validate([
+            'pengda' => 'required',
+            'nama' => 'required|unique:sk,nama',
+            'no_sk' => 'required|unique:sk,no_sk',
+            'alamat' => 'required',
+        ],[
+            'pengda.required' => 'Pengda tidak boleh kosong',
+            'nama.required' => 'nama tidak boleh kosong',
+            'no_sk.required' => 'no sk tidak boleh kosong',
+            'alamat.required' => 'alamat tidak boleh kosong',
+        ]);
+
+        DB::beginTransaction();
+        try{
+            $nick = explode(',',$request->nama);
+            $datas = Data::where('nick_name',strtolower($nick[0]))->first();
+            if($datas->nama){
+                return response()->json(['status' => 'error', 'message' => 'Nama sudah ada!']);
+            }
+            $data = Data::create([
+                'pengda_id' => $request->pengda,
+                'nama' =>  Crypt::encryptString($request->nama),
+                'no_sk' => Crypt::encryptString($request->no_sk),
+                'alamat' =>  Crypt::encryptString($request->alamat),
+                'nick_name' => strtolower($nick[0]),
+              
+            ]);
+            DB::commit();
+            
+            return response()->json(['status' => 'success', 'message' => 'Berhasil menambahkan data!']);
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        //
+        $data = Data::find($request->id);
+        $data->delete();
+
+        return response()->json(['status' => 'success', 'message' => 'Berhasil menghapus']);
+    }
 }

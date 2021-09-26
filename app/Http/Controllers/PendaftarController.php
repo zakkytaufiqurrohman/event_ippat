@@ -28,7 +28,7 @@ class PendaftarController extends Controller
 
             return Datatables::of($data)
                     ->editColumn('action', function ($row) {
-                        $wa = "https://api.whatsapp.com/send?phone=".Crypt::decryptString($row->wa)."&text=From: Panitia Ikatan Pejabat Pembuat Akta Tanah (IPPAT) E-ID Card Klik disini: " .env("HOST_ECARD", "www"). Crypt::encryptString($row->kode)." NB: SIMPAN DULU NOMOR INI YA, SUPAYA BISA KLIK LINKNYA";
+                        $wa = "https://api.whatsapp.com/send?phone=".$row->wa."&text=From: Panitia Ikatan Pejabat Pembuat Akta Tanah (IPPAT) E-ID Card Klik disini: " .env("HOST_ECARD", "www"). Crypt::encryptString($row->kode)." NB: SIMPAN DULU NOMOR INI YA, SUPAYA BISA KLIK LINKNYA";
                         $action = '';
                         $action .= "<a href='javascript:void(0)' class='btn btn-icon btn-primary' data-id='{$row->id}' onclick='Edit(this);'><i class='fa fa-edit'></i></a>&nbsp;";
                         $action .= "<a href='javascript:void(0)' class='btn btn-icon btn-danger'  data-id='{$row->id}' onclick='Delete(this);'><i class='fa fa-trash'></i></a>&nbsp;";
@@ -48,7 +48,7 @@ class PendaftarController extends Controller
                     ->editColumn('wa', function($row) {
                         $wa = '';
                         
-                        $wa .= Crypt::decryptString($row->wa);;
+                        $wa .= $row->wa;
                             
                         
                         return $wa;
@@ -56,7 +56,7 @@ class PendaftarController extends Controller
                     ->editColumn('email', function($row) {
                         $email = '';
                         
-                        $email .= Crypt::decryptString($row->email);;
+                        $email .= $row->email;
                             
                         
                         return $email;
@@ -64,7 +64,7 @@ class PendaftarController extends Controller
                     ->editColumn('no_sk', function($row) {
                         $no_sk = '';
                         
-                        $no_sk .= Crypt::decryptString($row->no_sk);;
+                        $no_sk .= $row->no_sk;
                             
                         
                         return $no_sk;
@@ -72,7 +72,7 @@ class PendaftarController extends Controller
                     ->editColumn('nama', function($row) {
                         $nama = '';
                         
-                        $nama .= Crypt::decryptString($row->nama);;
+                        $nama .= $row->nama;
                             
                         
                         return $nama;
@@ -122,42 +122,7 @@ class PendaftarController extends Controller
     {
         //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-        $validated = $request->validate([
-            'nama' => 'required',
-            'kanwil_id' => 'required',
-        ],[
-            'nama.required' => 'Nama tidak boleh kosong',
-            'kanwil_id.required' => 'Kanwil tidak boleh kosong'
-        ]);
-
-        DB::beginTransaction();
-        try{
-
-            $data = upt::create([
-                'nama' => $request->nama,
-                'kanwil_id' => $request->kanwil_id,
-              
-            ]);
-            DB::commit();
-            
-            return response()->json(['status' => 'success', 'message' => 'Berhasil menambahkan data!']);
-        } catch(Exception $e){
-
-            DB::rollback();
-
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
-        }
-    }
+    
 
     /**
      * Display the specified resource.
@@ -179,9 +144,8 @@ class PendaftarController extends Controller
     public function edit($id)
     {
         //
-        $upt = upt::find($id);
-
-        return response()->json(['status' => 'success', 'message' => 'Berhasil mengambil data!', 'data' => $upt]);
+        $Pendaftar = Pendaftar::find($id);
+        return response()->json(['status' => 'success', 'message' => 'Berhasil mengambil data!', 'data' => $Pendaftar]);
     }
 
     /**
@@ -191,23 +155,26 @@ class PendaftarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
         $validated = $request->validate([
             'nama' => 'required',
-            'kanwil_id' => 'required',
+            'wa' => 'required',
+            'email'  => 'required',
         ],[
             'nama.required' => 'Nama tidak boleh kosong',
-            'kanwil_id.required' => 'Kanwil tidak boleh kosong'
+            'wa.required' => 'wa tidak boleh kosong',
+            'email.required' => 'email tidak boleh kosong',
         ]);
 
         DB::beginTransaction();
         try{
-            $user = upt::find($id);
+            $user = Pendaftar::find($request->id);
             $user->update([
                 'nama' => $request->nama,
-                'kanwil_id' => $request->kanwil_id,
+                'wa' => $request->wa,
+                'email' => $request->email,
             ]);
             DB::commit();
             

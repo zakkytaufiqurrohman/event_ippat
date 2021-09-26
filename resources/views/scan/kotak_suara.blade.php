@@ -118,7 +118,7 @@
                     var data = result.data;
                     var html = '';
                     html += `
-                        <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.jpg?s=200" alt="Photo" class="img-fluid rounded mx-auto d-block img-custom">
+                        <img src="{{ asset('upload/foto/${data.img_foto}') }}" alt="Photo" class="img-fluid rounded mx-auto d-block img-custom">
                         <div class="info-custom mt-4">
                             <h4>NIK : <span>${data.nik}</span></h4>
                             <h4>No SK : <span>${data.no_sk}</span></h4>

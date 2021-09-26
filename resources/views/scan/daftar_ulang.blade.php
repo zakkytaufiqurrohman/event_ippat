@@ -30,7 +30,7 @@
                 @csrf
                 <div class="form-group">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control form-control-lg" name="kode" id="kode" placeholder="Scan Kode QR Anda" autocomplete="off">
+                        <input type="text" class="form-control form-control-lg" name="kode" id="kode" placeholder="Scan Kode QR Anda" onkeypress="SaveAbsent()" autocomplete="off">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-lg btn-primary" id='btn-submit' type="button">
                                 <i class='fa' aria-hidden="true" id='icon-submit'></i>

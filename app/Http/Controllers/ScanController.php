@@ -14,19 +14,19 @@ use DB;
 class ScanController extends Controller
 {
     public function index($kode){
-
+        $kode = Crypt::decryptString($kode);
         $pendaftar = Pendaftar::where('kode',$kode)->with('getPengda')->first();
         if(empty($pendaftar)){
             return response()->json(['status' => 'error', 'message' => 'Pendaftar Tidak Ditemukan!']);
         }
 
         $data = [
-            'nama' => Crypt::decryptString($pendaftar->nama),
-            'nik' => Crypt::decryptString($pendaftar->ktp),
-            'no_sk' => Crypt::decryptString($pendaftar->no_sk),
+            'nama' => $pendaftar->nama,
+            'nik' => $pendaftar->ktp,
+            'no_sk' => $pendaftar->no_sk,
             'img_foto' => $pendaftar->img_foto
         ];
-        return response()->json(['status' => 'success', 'message' => 'Pendaftar Ditemukan!', 'data' => $data, 'dat' => $pendaftar]);
+        return response()->json(['status' => 'success', 'message' => 'Pendaftar Ditemukan!', 'data' => $data]);
     }
 
     public function daftar_ulang(Type $var = null)
@@ -57,6 +57,7 @@ class ScanController extends Controller
                 return response()->json(['status' => 'warning', 'message' => 'Pendaftar Sudah Pernah Daftar Ulang!']); 
             }
 
+            $kode = Crypt::encryptString($request->kode);
             $data = Scan::insert([
                 'kode' => $request->kode,
                 'pendaftars_id' => $pendaftars->first()->id,
@@ -67,7 +68,7 @@ class ScanController extends Controller
             ]);
             DB::commit();
             
-            return response()->json(['status' => 'success', 'message' => 'Berhasil Absen!', 'kode' => $request->kode]);
+            return response()->json(['status' => 'success', 'message' => 'Berhasil Absen!', 'kode' => $kode]);
         } catch(Exception $e){
 
             DB::rollback();

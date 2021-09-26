@@ -17,25 +17,20 @@
 </style>
 @endsection
 @section('body')
-@section('title','Data pendaftar')
+@section('title','Data Admin')
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
                 <button class="btn btn-md btn-primary" onclick="OpenModalAdd()"><i class='fa fa-plus'></i>&nbsp;Tambah</button>
+
                 <div class="table-responsive mt-4">
                     <table class="table table-striped table-bordered" id="table-data">
                         <thead>
                             <th>No</th>
-                            <th>Pengda</th>
                             <th>Nama</th>
-                            <th>No Sk</th>
-                            <th>Kode</th>
-                            <th>Wa</th>
-                            <th>Email</th>
-                            <th>Foto</th>
-                            <th>Bukti</th>
-                            <th>SK foto</th>
+                            <th>Username</th>
+                            <th>level</th>
                             <th>Aksi</th>
                         </thead>
                     </table>
@@ -44,81 +39,75 @@
         </div>
     </div>
 </div>
+
 <!-- Modal Add -->
-<div class="modal fade" tabindex="-1" role="dialog" id="modal-register">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-import">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Data pendaftar</h5>
+                <h5 class="modal-title">Import Data</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="javascript:void(0)" id="form-register">
+            <form method="POST" action="{{route('pengda.import')}}" enctype="multipart/form-data">
             <div class="modal-body">
                 @csrf
-                <input type="hidden" class="form-control" value="flag" name="flag" id="flag" placeholder="flag" autocomplete="off">
-                <div class="form-group form-role">
-                    <label>Pengda</label>
-                    <select class="form-control" name="pengda" id="pengda">
-                        @foreach($pengdas as $pengda)
-                        <option value="{{ $pengda->id }}" > {{ $pengda->nama }}</option>
-                        @endforeach
-                    </select>
-                    <div class="invalid-feedback-custom"></div>
-                </div>
                 <div class="form-group">
-                    <label>Nama</label>
-                    <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama Tanpa gelar" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label>SK</label>
-                    <input type="text" class="form-control" name="no_sk" id="no_sk" placeholder="no_sk" autocomplete="off">
-                </div>
-                <div class="row">
-                    <div class="form-group col-6">
-                        <label>NO WA</label>
-                        <input id="wa" type="text" class="form-control" required name="wa" >
-                        <span>*Patikan No benar (digunakan untuk E-Card)</span>
-
-                    </div>
-                    <div class="form-group col-6">
-                        <label>Email</label>
-                        <input id="email" type="email" class="form-control" required name="email"  >
-
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group col-6">
-                    <label>No KTP</label>
-                        <input id="ktp" type="number" class="form-control" required name="ktp" >
-
-                    </div>
-                    <div class="form-group col-6">
-                        <label for="sk" class="d-block">Sk</label>
-                        <input id="sk" type="file" class="form-control" name="sk" required >
-                        <span>*Patikan foto terlihat jelas (Max 500 Kbps jpg/png)</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-6">
-                        <label for="foto" class="d-block">Foto Diri</label>
-                        <input id="foto" type="file" class="form-control" name="foto" required >
-                        <span>*Patikan foto terlihat jelas (Max 500 Kbps jpg/png)</span>
-                        <span>*Foto akan digunakan untuk verifikasi data</span>
-
-                    </div>
-                    <div class="form-group col-6">
-                        <label for="bukti_tf" class="d-block">Bukti Transfer</label>
-                        <input id="bukti_tf" type="file" class="form-control" name="bukti_tf" required >
-                        <span>*Patikan foto terlihat jelas (Max 500 Kbps jpg/png)</span>
-                    </div>
+                    <label>File EXCEL</label>
+                    <input type="file" class="form-control" name="file" placeholder="file" autocomplete="off">
                 </div>
             </div>
             <div class="modal-footer bg-whitesmoke br">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                <button id="btn-register" type="submit" class="btn btn-primary">Simpan</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Add -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-add">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="javascript:void(0)" id="form-add">
+            <div class="modal-body">
+                @csrf
+                <div class="form-group">
+                    <label>Nama</label>
+                    <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" class="form-control" name="username" id="nama" placeholder="Nama" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password min 6 char" autocomplete="off">
+                </div>
+                <div class="form-group form-role">
+                    <label>Level</label>
+                    <select class="form-control" name="level" id="level">
+                        <option value="1" > Admin</option>
+                        <option value="2" > User</option>
+                        <option value="3" > Scan 1</option>
+                        <option value="4" > Scan 2</option>
+                        <option value="5" > Scan 3</option>
+
+                    </select>
+                    <div class="invalid-feedback-custom"></div>
+                </div>
+            </div>
+            <div class="modal-footer bg-whitesmoke br">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
             </div>
             </form>
         </div>
@@ -130,7 +119,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Data pendaftar</h5>
+                <h5 class="modal-title">Edit Data </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -139,18 +128,27 @@
             <div class="modal-body">
                 @csrf
                 @method('PUT')
+                <input type="hidden" class="form-control" name="id" id="id" placeholder="Nama" autocomplete="off">
+
                 <div class="form-group">
                     <label>Nama</label>
-                    <input type="hidden" name="id" id="idEdit">
-                    <input type="text" class="form-control" name="nama" id="namaEdit" placeholder="Nama" autocomplete="off">
+                    <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama" autocomplete="off">
                 </div>
                 <div class="form-group">
-                    <label>Wa</label>
-                    <input type="text" class="form-control" name="wa"  placeholder="wa" autocomplete="off">
+                    <label>Username</label>
+                    <input type="text" class="form-control" name="username" id="nama" placeholder="Nama" autocomplete="off">
                 </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="text" class="form-control" name="email"  placeholder="email" autocomplete="off">
+                <div class="form-group form-role">
+                    <label>Level</label>
+                    <select class="form-control" name="level" id="level_edit">
+                        <option value="1" > Admin</option>
+                        <option value="2" > User</option>
+                        <option value="3" > Scan 1</option>
+                        <option value="4" > Scan 2</option>
+                        <option value="5" > Scan 3</option>
+
+                    </select>
+                    <div class="invalid-feedback-custom"></div>
                 </div>
             </div>
             <div class="modal-footer bg-whitesmoke br">
@@ -175,10 +173,10 @@
         $(function () {
             GetData();
 
-            // $("#form-add").on("submit", function(e) {
-            //     e.preventDefault();
-            //     AddData();
-            // });
+            $("#form-add").on("submit", function(e) {
+                e.preventDefault();
+                AddData();
+            });
 
             $("#form-edit").on("submit", function(e) {
                 e.preventDefault();
@@ -204,31 +202,29 @@
                 processing: true,
                 serverSide: true,
                 destroy: true,
-                ajax: "{{ route('pendaftar.data') }}",
+                ajax: "{{ route('admin.data') }}",
                 columns: [
                     {data: 'DT_RowIndex', name: 'no', "width": "2%", orderable: false, searchable: false},
-                    {data: 'pengda', name: 'nama'},
-                    {data: 'nama', name: 'nama'},
-                    {data: 'no_sk', name: 'no_sk'},
-                    {data: 'kode', name: 'kode'},
-                    {data: 'wa', name: 'wa'},
-                    {data: 'email', name: 'email'},
-                    {data: 'foto', name: 'nama'},
-                    {data: 'bukti', name: 'nama'},
-                    {data: 'sk', name: 'sk'},
+                    {data: 'name', name: 'nama'},
+                    {data: 'username', name: 'username'},
+                    {data: 'level', name: 'level'},
                     {data: 'action', name: 'action', 'text-align': 'center', orderable: false, searchable: false},
                 ]
             });
         }
 
         function OpenModalAdd(){
-            $('#modal-register').modal('show');
+            $('#modal-add').modal('show');
+        }
+
+        function importModal(){
+            $('#modal-import').modal('show');
         }
 
         function Edit(object){
             var id = $(object).data('id')
 
-            var url = "{{ route('pendaftar.edit', ':id') }}";
+            var url = "{{ route('admin.edit', ':id') }}";
             url = url.replace(':id',id);
             
             $.ajax({
@@ -239,26 +235,21 @@
                     $('#modal-edit').modal('show');
                     var data = result['data'];
                     $('#modal-edit').find('input[name="id"]').val(data.id);
-                    $('#modal-edit').find('input[name="nama"]').val(data.nama);
-                    $('#modal-edit').find('input[name="wa"]').val(data.wa);
-                    $('#modal-edit').find('input[name="email"]').val(data.email);
-
+                    $('#modal-edit').find('input[name="nama"]').val(data.name);
+                    $('#modal-edit').find('input[name="username"]').val(data.username);
+                    $('#level_edit').val(data.level).change()
                 }
             });
         }
 
-        $("#form-register").on("submit", function(e) {
-            e.preventDefault();
-            var form=$("body");
-                form.find('.invalid-feedback').remove();
-				$('input').removeClass('is-invalid');
+        function AddData(){
+            var formData = $("#form-add").serialize();
+
             $.ajax({
-                url: "{{route('daftar.register')}}",
+                url: "{{ route('admin') }}",
                 type: "POST",
-				dataType: "json",
-				data: new FormData(this),
-				processData: false,
-				contentType: false,
+                dataType: "json",
+                data: formData,
                 beforeSend() {
                     $("input").attr('disabled', 'disabled');
                     $("button").attr('disabled', 'disabled');
@@ -272,17 +263,15 @@
                     $("select").removeAttr('disabled', 'disabled');
                 },
                 success(result){
-                    if (result['status'] == 'success') {
-                        $("#form-register")[0].reset();
-                        $('#modal-register').modal('hide');
-                        GetData();
-                    } else {
-                        iziToast.error({
-                            title: "Error",
-                            message: result.message,
-                            position: 'bottomRight'
-                        });
-                    }
+                    $("#form-add")[0].reset();
+                    $('#modal-add').modal('hide');
+                    GetData();
+                                        
+                    iziToast.success({
+                        title: result.status,
+                        message: result.message,
+                        position: 'topRight'
+                    });
                 },
                 error(xhr, status, error) {
                     var err = eval('(' + xhr.responseText + ')');
@@ -298,67 +287,14 @@
                     })
                 }
             });
-        })
-        $("#nama").on('keyup', function(){
-			var pengda = $("#pengda").find(":selected").val();
-			console.log(pengda);
-			if(pengda === '0' || pengda.length == 0){
-				alert('penda belum di pilih');
-			}
-			var form=$("body");
-			form.find('.invalid-feedback').remove();
-			form.find('.form-group .is-invalid').removeClass('is-invalid');
-			var nama =  $(this).val();
-			$.ajax({
-				url: "{{route('daftar.cek_nama')}}",
-				type: "POST",
-				data :{
-					"pengda": pengda,
-					"nama":nama,
-					"_token": "{{ csrf_token() }}",
-				},
-				dataType: "json",
-				beforeSend() {
-                    $("#no_sk").addClass("btn-progress");
-                },
-                complete() {
-                    $("#no_sk").removeClass("btn-progress");
-                },
-				success: function(data) {
-					var form=$("body");
-					form.find('.invalid-feedback').remove();
-					form.find('.form-group .is-invalid').removeClass('is-invalid');
-					if(data == 0){
-						$("#no_sk").addClass('is-invalid').after('<div class="invalid-feedback">Nomor SK tidak terdaftar</div>');
-						$("#wa").prop('disabled',true);
-						$("#ktp").prop('disabled',true);
-						$("#sk").prop('disabled',true);
-						$("#foto").prop('disabled',true);
-						$("#bukti_tf").prop('disabled',true);
-						$("#email").prop('disabled',true);
-						$("#no_sk").val('')
-						$("#btn-register").prop('disabled',true);
-					}
-					else {
-						$("#wa").prop('disabled',false);
-						$("#ktp").prop('disabled',false);
-						$("#sk").prop('disabled',false);
-						$("#foto").prop('disabled',false);
-						$("#bukti_tf").prop('disabled',false);
-						$("#email").prop('disabled',false);
-						$("#btn-register").prop('disabled',false);
-						$("#no_sk").val(data)
-					}
-					
-				}
-			});
-		});
+        }
 
         function UpdateData(){
             var formData = $("#form-edit").serialize();
 
             var id = $('#idEdit').val();
-            var url = "{{ route('pendaftar.update') }}"
+            var url = "{{ route('admin.update') }}"
+            url = url.replace(':id',id);
 
             $.ajax({
                 url: url,
@@ -422,7 +358,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "{{ route('pendaftar.delete') }}",
+                        url: "{{ route('admin.delete') }}",
                         method: "POST",
                         dataType: "json",
                         data: {
@@ -450,6 +386,39 @@
                 }
             });
         }
+
+    function reset(object)
+    {
+        var id = $(object).data('id');
+        if (confirm("Apakah Anda Yakin Reset Password ke 12345678 ?")) {
+            $.ajax({
+                url: "{{route('admin.reset')}}",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    "id": id,
+                    "_method": "post",
+                    "_token": "{{ csrf_token() }}"
+                },
+                success(result) {
+                    iziToast.success({
+                                title: result.status,
+                                message: result.message,
+                                position: 'topRight'
+                    });
+                    GetData()
+                },
+                error(xhr, status, error) {
+                    var err = eval('(' + xhr.responseText + ')');
+                    iziToast.error({
+                                title: 'Error',
+                                message: err,
+                                position: 'topRight'
+                    });
+                }
+            });
+        }     
+    }
 
         
     </script>

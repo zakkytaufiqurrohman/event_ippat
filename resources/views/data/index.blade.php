@@ -84,17 +84,25 @@
             <div class="modal-body">
                 @csrf
                 <div class="form-group form-role">
-                    <label>Kanwil</label>
-                    <select class="form-control" name="kanwil_id" id="kanwil_id">
-                        @foreach($pengdas as $kanwil)
-                        <option value="{{ $kanwil->id }}" > {{ $kanwil->nama }}</option>
+                    <label>Pengda</label>
+                    <select class="form-control" name="pengda" id="pengda">
+                        @foreach($pengdas as $pengda)
+                        <option value="{{ $pengda->id }}" > {{ $pengda->nama }}</option>
                         @endforeach
                     </select>
                     <div class="invalid-feedback-custom"></div>
                 </div>
                 <div class="form-group">
                     <label>Nama</label>
-                    <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama" autocomplete="off">
+                    <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama Dengan gelar" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>No SK</label>
+                    <input type="text" class="form-control" name="no_sk" id="no_sk" placeholder="" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Alamat</label>
+                    <input type="text" class="form-control" name="alamat" id="alamat" autocomplete="off">
                 </div>
             </div>
             <div class="modal-footer bg-whitesmoke br">
@@ -122,7 +130,7 @@
                 @method('PUT')
                 <div class="form-group form-role">
                     <label>Kanwil</label>
-                    <select class="form-control" name="kanwil_id" id="kanwil_edit">
+                    <select class="form-control" name="pengda" id="kanwil_edit">
                         @foreach($pengdas as $kanwil)
                         <option value="{{ $kanwil->id }}" > {{ $kanwil->nama }}</option>
                         @endforeach
@@ -223,7 +231,7 @@
                     var data = result['data'];
                     $('#modal-edit').find('input[name="id"]').val(data.id);
                     $('#modal-edit').find('input[name="nama"]').val(data.nama);
-                    $('#kanwil_edit').val(data.kanwil_id).change()
+                    $('#kanwil_edit').val(data.pengda).change()
                 }
             });
         }
@@ -232,7 +240,7 @@
             var formData = $("#form-add").serialize();
 
             $.ajax({
-                url: "{{ route('pendaftar') }}",
+                url: "{{ route('data') }}",
                 type: "POST",
                 dataType: "json",
                 data: formData,
@@ -249,15 +257,27 @@
                     $("select").removeAttr('disabled', 'disabled');
                 },
                 success(result){
-                    $("#form-add")[0].reset();
-                    $('#modal-add').modal('hide');
-                    GetData();
-                                        
-                    iziToast.success({
-                        title: result.status,
+                    if(result.status == 'success'){
+                        $("#form-add")[0].reset();
+                        $('#modal-add').modal('hide');
+                        GetData();
+                                            
+                        iziToast.success({
+                            title: result.status,
+                            message: result.message,
+                            position: 'topRight'
+                        });
+                    }
+                    if(result.status == 'error'){
+                        $("#form-add")[0].reset();
+                        $('#modal-add').modal('hide');
+                        GetData();
+                        iziToast.error({
+                        title: 'Error',
                         message: result.message,
                         position: 'topRight'
-                    });
+                        });
+                    }
                 },
                 error(xhr, status, error) {
                     var err = eval('(' + xhr.responseText + ')');
@@ -344,7 +364,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "{{ route('pendaftar.delete') }}",
+                        url: "{{ route('data.delete') }}",
                         method: "POST",
                         dataType: "json",
                         data: {

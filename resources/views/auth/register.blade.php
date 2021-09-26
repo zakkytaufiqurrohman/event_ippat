@@ -113,7 +113,7 @@
 							</div>
 						</div>
 						<div class="simple-footer">
-							Copyright &copy;{{date('Y')}}
+                        Copyright &copy;2021 - {{date('Y')}} IPPAT All Right Reserved designed by Stisla {{ Date('Y')}}
 						</div>
 					</div>
 				</div>

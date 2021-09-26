@@ -8,6 +8,7 @@ use App\Http\Controllers\DataController;
 use App\Http\Controllers\PengdaController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\ScanController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +21,9 @@ use App\Http\Controllers\ScanController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -30,7 +31,7 @@ Route::get('/login', function () {
 
 Route::get('/login', [LoginController::class,'index'])->name('login');
 Route::post('/login',  [LoginController::class,'login'])->name('login');
-Route::get('/register', [RegisterController::class,'index']);
+Route::get('/', [RegisterController::class,'index']);
 
 
 Route::name('daftar')->prefix('daftars')->group(function(){
@@ -68,7 +69,7 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    // data pendaftar
+    // data 
     Route::name('data')->prefix('datas')->group(function(){
         Route::get('/', [DataController::class,'index']);
         Route::post('/', [DataController::class, 'store']);
@@ -99,6 +100,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/get/{id}', [ScanController::class,'index']);
         Route::get('/daftar_ulang', [ScanController::class,'daftar_ulang'])->name('.daftar_ulang');
         Route::post('/daftar_ulang', [ScanController::class, 'daftar_ulang_store'])->name('.daftar_ulang');
+    });
+    
+    // data admin
+    Route::name('admin')->prefix('admins')->group(function(){
+        Route::get('/', [AdminController::class,'index']);
+        Route::Post('/reset', [AdminController::class,'reset'])->name('.reset');
+        Route::post('/', [AdminController::class, 'store']);
+        Route::delete('/', [AdminController::class, 'destroy'])->name('.delete');;
+        Route::put('/', [AdminController::class, 'update'])->name('.update');
+        Route::get('/data', [AdminController::class,'data'])->name('.data');
+        Route::post('/import', [AdminController::class,'import'])->name('.import');
+        Route::get('/{id}/edit', [AdminController::class,'edit'])->name('.edit');
 
 
     });

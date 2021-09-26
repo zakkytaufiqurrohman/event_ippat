@@ -11,13 +11,14 @@ use Illuminate\Support\Facades\Crypt;
 use App\Imports\DataImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
+use Auth;
 
 class DataController extends Controller
 {
     public function index()
     {
         if(Auth::user()->level != 1){
-            return 'User Tidak punya akses';
+            return view('404');
         }        
         $pengdas = Pengda::all();
         return view('data.index',compact('pengdas'));

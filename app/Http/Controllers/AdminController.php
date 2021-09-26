@@ -13,7 +13,7 @@ class AdminController extends Controller
     public function index()
     {
         if(Auth::user()->level != 1){
-            return 'User Tidak punya akses';
+            return view('404');
         }
         return view('admin.index');
     }

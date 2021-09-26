@@ -13,7 +13,7 @@ class CardController extends Controller
         $kode = Crypt::decryptString($id);
         $data = Pendaftar::where('kode',$kode)->with('getPengda')->first();
         if(empty($data)){
-            return 'Maaf Anda Tidak Terdaftar';
+            return view('404');
         }
         return view('card',compact('data'));
     }

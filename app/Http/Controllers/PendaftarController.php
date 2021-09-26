@@ -17,7 +17,7 @@ class PendaftarController extends Controller
     public function index()
     {
         if(Auth::user()->level != 1){
-            return 'User Tidak punya akses';
+            return view('404');
         }
         $pengdas = Pengda::all();
         return view('pendaftar.index',compact('pengdas'));

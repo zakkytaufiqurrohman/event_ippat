@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Data;
+use App\Models\Pendaftar;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -82,6 +85,9 @@ class LoginController extends Controller
 
     public function dashboard()
     {
-        return view('dashboard');
+        $admin = User::count();
+        $pendaftar = Pendaftar::count();
+        $peserta = Data::count();
+        return view('dashboard',compact('admin','pendaftar','peserta'));
     }
 }

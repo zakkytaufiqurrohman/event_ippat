@@ -31,7 +31,7 @@
                     @endif
                 </ul>
         </li>
-        <li class="{{ (request()->is('pengda*')) ? 'active' : '' }}"><a class="nav-link" href="{{route('pengda')}}"><i class="fa fa-tv"></i> <span>Live Record</span></a></li>
+        <li class="{{ (request()->is('lives*')) ? 'active' : '' }}"><a class="nav-link" href="{{route('lives')}}"><i class="fa fa-tv"></i> <span>Live Record</span></a></li>
         </ul>
       
     </aside>

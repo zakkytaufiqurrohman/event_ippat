@@ -9,7 +9,7 @@ use App\Http\Controllers\PengdaController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\ScanController;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\LiveController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,6 +48,8 @@ Route::name('daftar')->prefix('daftars')->group(function(){
 
 });
 Route::get('/card/{id}', [CardController::class,'index']);
+Route::get('/lives', [LiveController::class,'index'])->name('lives');
+
 
 
 Route::middleware('auth')->group(function () {

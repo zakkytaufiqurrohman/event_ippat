@@ -32,6 +32,7 @@
                     <h4><center>E-CARD RAKORWIL IPPAT JATENG 2021</center></h4>
                   </div>
                   <div class="card-body">
+                    <form method="POST" action="javascript:void(0)" id="form-absen">
                     <div class="empty-state" data-height="400">
                     <img src="data:image/png;base64,{{DNS2D::getBarcodePNG($data->kode, 'QRCODE',10,10)}}" class="img-fluid img-thumbnail" alt="barcode" />
 
@@ -52,9 +53,10 @@
                       </p>
 					  <hr style="height:2px; width:95%; border-width:0; color:red; background-color:green">
 
-                      <a href="#" class="btn btn-primary mt-4">Daftar Ulang</a>
+                      <button type='submit' class="btn btn-primary mt-4">Daftar Ulang</button>
                       <a href="#" class="mt-4 bb">Need Help?</a>
                     </div>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -62,6 +64,56 @@
             </div>
         </section>
     </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="{{ asset('node_modules/izitoast/dist/js/iziToast.min.js') }}"></script>
+    <script src="{{ asset('node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>
+    <script>
+      $(function () {
+          $("#form-absen").on("submit", function(e) {
+              e.preventDefault();
+              SaveAbsent();
+          });
+      });
+
+      function SaveAbsent(){
+            var kode = '{{ $data->kode }}'
+            $.ajax({
+                url: "{{ route('scan.daftar_ulang') }}",
+                type: "POST",
+                dataType: "json",
+                data: {
+                  'kode': kode,
+                  "_token": "{{ csrf_token() }}"
+                },
+                beforeSend() {
+                    $('#icon-submit').addClass('fa-spinner');
+                    $('#btn-submit').attr('disabled',true);
+                },
+                complete(){
+                    $('#icon-submit').removeClass('fa-spinner');
+                    $('#btn-submit').attr('disabled',false);
+                },
+                success(result){
+                    swal({
+                        icon: result.status,
+                        title: 'Ooops...',
+                        text: result.message
+                    });
+                },
+                error(xhr, status, error) {
+                    var err = eval('(' + xhr.responseText + ')');
+                    $.each(err.errors,function(key,value){
+                        iziToast.error({
+                            title: 'Error',
+                            message: value,
+                            position: 'topRight'
+                        });
+                    })
+                    
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

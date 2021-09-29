@@ -123,7 +123,7 @@
                             <h4>NIK : <span>${data.nik}</span></h4>
                             <h4>No SK : <span>${data.no_sk}</span></h4>
                             <h4>Nama : <span>${data.nama}</span></h4>
-                            <h4>Kanwil : <span>Kanwil</span></h4>
+                            <h4>Pengda : <span>${data.pengda}</span></h4>
                         </div>
                     `;
 

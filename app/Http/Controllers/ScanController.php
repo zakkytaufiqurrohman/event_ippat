@@ -24,7 +24,8 @@ class ScanController extends Controller
             'nama' => $pendaftar->nama,
             'nik' => $pendaftar->ktp,
             'no_sk' => $pendaftar->no_sk,
-            'img_foto' => $pendaftar->img_foto
+            'img_foto' => $pendaftar->img_foto,
+            'pengda' => $pendaftar->getPengda->nama
         ];
         return response()->json(['status' => 'success', 'message' => 'Pendaftar Ditemukan!', 'data' => $data]);
     }

@@ -119,7 +119,8 @@ class RegisterController extends Controller
             }
             $pengda = Pengda::where('id',$request->pengda)->first();
             if(!empty($pengda)){
-                $pengda = $pengda->nama;
+                $peng = explode(" ", $pengda->nama);
+                $pengda = $peng[1];
             }
             else {
                 $pengda = 'Z';

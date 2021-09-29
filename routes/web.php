@@ -10,6 +10,7 @@ use App\Http\Controllers\CardController;
 use App\Http\Controllers\ScanController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LiveController;
+use App\Http\Controllers\LaporanController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,12 +36,6 @@ Route::get('/', [RegisterController::class,'index']);
 
 
 Route::name('daftar')->prefix('daftars')->group(function(){
-    // Route::get('/', [RoleController::class,'index']);
-    // Route::post('/', [RoleController::class, 'store']);
-    // Route::delete('/', [RoleController::class, 'destroy']);
-    // Route::put('/', [RoleController::class, 'update']);
-    // Route::get('/data', [RoleController::class,'data'])->name('.data');
-    // Route::get('/getPermission', [RoleController::class,'getPermission'])->name('.getPermission');
     Route::post('/cek_nama', [RegisterController::class,'cekNama'])->name('.cek_nama');
     Route::post('/register', [RegisterController::class,'register'])->name('.register');
     Route::get('/success', [RegisterController::class,'success']);
@@ -63,7 +58,6 @@ Route::middleware('auth')->group(function () {
         Route::put('/', [PendaftarController::class, 'update'])->name('.update');
         Route::get('/data', [PendaftarController::class,'data'])->name('.data');
         Route::get('/{id}/edit', [PendaftarController::class,'edit'])->name('.edit');
-        // Route::get('/getPermission', [PendaftarController::class,'getPermission'])->name('.getPermission');
         Route::post('/cek_nama', [RegisterController::class,'cekNama'])->name('.cek_nama');
         Route::post('/register', [RegisterController::class,'register'])->name('.register');
         Route::get('/success', [RegisterController::class,'success'])->name('success');
@@ -120,6 +114,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', [AdminController::class,'edit'])->name('.edit');
 
 
+    });
+
+     // laporan 
+     Route::name('laporan')->prefix('laporan')->group(function(){
+        Route::get('/daftar_ulang', [LaporanController::class,'daftarUlang'])->name('.daftar_ulang');
+        Route::get('/surat_suara', [LaporanController::class,'suratSuara'])->name('.surat_suara');
+        Route::get('/kotak_suara', [LaporanController::class,'KotakSuara'])->name('.kotak_suara');
+        Route::get('/print', [LaporanController::class,'print'])->name('.print');
+
+        Route::delete('/', [LaporanController::class, 'destroy'])->name('.delete');
+        Route::get('/data', [LaporanController::class,'data'])->name('.data');
     });
 });
 

@@ -15,7 +15,20 @@
         <li class="{{ (request()->is('admin*')) ? 'active' : '' }}"><a class="nav-link" href="{{route('admin')}}"><i class="fas fa-user"></i> <span>User</span></a></li>
         @endif
         @if(\Auth::user()->level == 1 || \Auth::user()->level == 2)
-        <li class="{{ (request()->is('pengda*')) ? 'active' : '' }}"><a class="nav-link" href="{{route('pengda')}}"><i class="fas fa-th"></i> <span>Laporan</span></a></li>
+        <li class="nav-item dropdown  {{ (request()->is('laporan*')) ? 'active' : '' }}">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-th"></i> <span>Laporan</span></a>
+                <ul class="dropdown-menu">
+                    @if(\Auth::user()->level == 1 || \Auth::user()->level == 3 ||  \Auth::user()->level == 2 )
+                    <li class="{{ (request()->is('*daftar_ulang*')) ? 'active' : '' }}"><a class="nav-link" href="{{ route('laporan.daftar_ulang') }}">Daftar Ulang</a></li>
+                    @endif
+                    @if(\Auth::user()->level == 1 || \Auth::user()->level == 4 ||  \Auth::user()->level == 2 )                    
+                    <li class="{{ (request()->is('*surat_suara*')) ? 'active' : '' }}"><a class="nav-link" href="{{ route('laporan.surat_suara') }}">Surat Suara</a></li>
+                    @endif
+                    @if(\Auth::user()->level == 1 || \Auth::user()->level == 5 ||  \Auth::user()->level == 2 )                    
+                    <li class="{{ (request()->is('*kotak_suara*')) ? 'active' : '' }}"><a class="nav-link" href="{{ route('laporan.kotak_suara') }}">Kotak Suara</a></li>
+                    @endif
+                </ul>
+        </li>
         @endif
         <li class="nav-item dropdown  {{ (request()->is('scan*')) ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Scan</span></a>

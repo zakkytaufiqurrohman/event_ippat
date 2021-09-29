@@ -51,7 +51,8 @@
 
 									<div class="form-group">
 										<label for="nama">Nama</label>
-										<input id="nama" type="text" class="form-control" required name="nama" autofocus>
+										<input id="nama" type="text" class="form-control" required name="nama" placeholder="Nama Tanpa Gelar"
+										 autofocus>
 
 									</div>
 

@@ -149,7 +149,7 @@
         }
         $("#waktu").change(function(){
             var id = $(this).val();
-            var url = "{{ route('laporan.print', ':id') }}";
+            var url = "{{ route('laporan.export', ':id') }}";
             url = url.replace(':id',id);
             $('#print-btn').attr("href", url);
             GetData(id);

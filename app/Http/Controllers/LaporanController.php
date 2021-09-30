@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LaporanScan;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
@@ -12,6 +13,7 @@ use App\Models\Pengda;
 use App\Models\Data;
 use App\Models\Laporan;
 use App\Models\Scan;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class LaporanController extends Controller
@@ -105,5 +107,11 @@ class LaporanController extends Controller
         $data->delete();
 
         return response()->json(['status' => 'success', 'message' => 'Berhasil menghapus']);
+    }
+
+    public function export(Request $request)
+    {
+        //
+        return Excel::download(new LaporanScan(1,1), 'siswa.xlsx');
     }
 }

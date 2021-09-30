@@ -123,7 +123,7 @@ class DataController extends Controller
         try{
             $nick = explode(',',$request->nama);
             $datas = Data::where('nick_name',strtolower($nick[0]))->first();
-            if($datas->nama){
+            if(!empty($datas->nama)){
                 return response()->json(['status' => 'error', 'message' => 'Nama sudah ada!']);
             }
             $data = Data::create([

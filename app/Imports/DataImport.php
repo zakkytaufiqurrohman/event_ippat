@@ -27,7 +27,7 @@ class DataImport implements ToModel,WithHeadingRow
     {
         // $name = preg_replace('/\s+/', '',$row['pengda']);
         $pengdas = $this->pengda->where('nama',$row['pengda'])->first();
-        $nick = explode(',',$row['nama']);
+        $nick = explode(',',$row['nickname']);
         return new Data([
             'pengda_id' => $pengdas->id ?? null,
             'nama' =>  Crypt::encryptString($row['nama']),

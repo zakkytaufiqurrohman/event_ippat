@@ -81,9 +81,7 @@ class AdminController extends Controller
                 'name' => $request->nama,
                 'username' => $request->username,
                 'password' => bcrypt($request->password),
-                'level' => $request->level,
-                'email' => ''
-              
+                'level' => $request->level,              
             ]);
             DB::commit();
             

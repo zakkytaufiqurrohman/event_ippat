@@ -114,7 +114,7 @@
 							</div>
 						</div>
 						<div class="simple-footer">
-                        Copyright &copy;2021 - {{date('Y')}} IPPAT All Right Reserved designed by Stisla {{ Date('Y')}}
+                        Copyright &copy;2021 - {{date('Y')}} IPPAT All Right Reserved Develop by Denny Sudrajat designed by Stisla {{ Date('Y')}}
 						</div>
 					</div>
 				</div>

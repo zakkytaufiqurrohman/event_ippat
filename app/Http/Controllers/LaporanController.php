@@ -18,29 +18,32 @@ class LaporanController extends Controller
 {
     public function daftarUlang()
     {
-        if(Auth::user()->level != 1){
-            return view('404');
-        }        
-        $pengdas = Pengda::all();
-        return view('laporan.daftar_ulang',compact('pengdas'));
+        if(Auth::user()->level == 1 || Auth::user()->level == 2 || Auth::user()->level == 3 ){
+            $pengdas = Pengda::all();
+            return view('laporan.daftar_ulang',compact('pengdas'));
+        }
+        return view('404');        
+       
     }
 
     public function suratSuara()
     {
-        if(Auth::user()->level != 1){
-            return view('404');
-        }        
-        $pengdas = Pengda::all();
-        return view('laporan.surat_suara',compact('pengdas'));
+        if(Auth::user()->level == 1 || Auth::user()->level == 2 || Auth::user()->level == 4 ){
+            $pengdas = Pengda::all();
+            return view('laporan.surat_suara',compact('pengdas'));
+        }
+        return view('404');        
+       
     }
 
     public function kotakSuara()
     {
-        if(Auth::user()->level != 1){
-            return view('404');
-        }        
-        $pengdas = Pengda::all();
-        return view('laporan.kotak_suara',compact('pengdas'));
+        if(Auth::user()->level == 1 || Auth::user()->level == 2 ||  Auth::user()->level == 5 ){
+            $pengdas = Pengda::all();
+            return view('laporan.kotak_suara',compact('pengdas'));
+        }     
+        return view('404');
+   
     }
 
     public function data(Request $request){

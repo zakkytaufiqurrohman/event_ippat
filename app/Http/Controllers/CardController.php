@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Crypt;
 class CardController extends Controller
 {
     public function index($id){
-        $kode = Crypt::decryptString($id);
-        $data = Pendaftar::where('kode',$kode)->with('getPengda')->first();
+        // $kode = Crypt::decryptString($id);
+        $data = Pendaftar::where('kode',$id)->with('getPengda')->first();
         if(empty($data)){
             return view('404');
         }

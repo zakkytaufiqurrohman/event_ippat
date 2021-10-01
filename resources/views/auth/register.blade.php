@@ -65,7 +65,7 @@
 									<div class="row">
 										<div class="form-group col-6">
 											<label>NO WA</label>
-                                            <input id="wa" type="text" class="form-control" required name="wa" disabled >
+                                            <input id="wa" type="text" class="form-control" autocomplete="081772XXXX" required name="wa" disabled >
                                             <span>*Patikan No benar (digunakan untuk E-Card)</span>
 
 										</div>
@@ -107,6 +107,7 @@
 										<button type="submit" id="btn-register" class="btn btn-primary btn-lg btn-block" disabled>
 											Register
 										</button>
+										<center><p>Butuh Bantuan ? silahkan hubungi Admin panitia</p><a href='https://api.whatsapp.com/send?phone=6281901463500'>Klik disini</a></center>
 									</div>
 									<div class="mt-5 text-muted text-center">
 									</div>
@@ -138,9 +139,20 @@
     <script src="{{ asset('node_modules/izitoast/dist/js/iziToast.min.js') }}"></script>
 
 	<!-- Page Specific JS File -->
-	<!-- <script src="{{ asset('assets/js/page/auth-register.js')}}"></script> -->
+    <script src="{{ asset('node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>
 
 	<script type="text/javascript">
+	setTimeout( function ( ) { 
+		const el = document.createElement('div');
+		el.innerHTML = "Silahkan hubungi panitia <a href='https://api.whatsapp.com/send?phone=6281901463500'>Klik disini</a>";
+		swal({
+			// icon: result.status,
+			title: 'Sk Tidak Terdaftar Atau Butuh Bantuan ?',
+			content: el 
+		});
+	
+	}, 10000 );
+		
 		$("#nama").on('keyup', function(){
 			var pengda = $("#pengda").find(":selected").val();
 			console.log(pengda);
@@ -229,11 +241,13 @@
                         });
                         window.location = "/daftars/success";
                     } else {
-                        iziToast.error({
-                            title: "Error",
-                            message: result.message,
-                            position: 'bottomRight'
-                        });
+                        const el = document.createElement('div');
+						el.innerHTML = "Silahkan hubungi panitia <a href='https://api.whatsapp.com/send?phone=6281901463500'>Klik disini</a>";
+						swal({
+							// icon: result.status,
+							title: 'Data Tidak Terdaftar',
+							content: el 
+						});
                     }
                 },
                 error:function (response){

@@ -28,10 +28,10 @@ footer{bottom:0px;text-align: center;color: white;}
 </div>
 <br><div class="body">
 <h2>Terimakasih Anda Sudah bergabung di Event IPPAT Jateng</h2>
-<h4>ID Card akan dikirim 1x24jam setelah proses verifikasi. 
-<br>Anda dapat melakukan pendaftaran ulang online melalui link yang tertera pada ID Card pada tanggal 20 Oktober pukul 09:00 WIB 
-<br>dan akan ditutup pada 21 Oktober pukul 09:00 WIB Jika dalam waktu 1x24jam belum mendapatkan ID CARD bisa menghubungi 
-<a href="https://api.whatsapp.com/send?phone=6281772875883">Panitia</a> 
+<h4>ID Card akan dikirim 1x24 jam setelah proses verifikasi. 
+<br>Anda dapat melakukan pendaftaran ulang online melalui link yang tertera pada ID Card pada tanggal 22 Oktober pukul 09:00 WIB 
+<br>dan akan ditutup pada 23 Oktober pukul 09:00 WIB Jika dalam waktu 1x24 jam belum mendapatkan ID CARD bisa menghubungi 
+<a href="https://api.whatsapp.com/send?phone=6281901463500">Panitia</a> 
 <!--<h4>Silahkan bayar transfer ke nomor Rek. MANDIRI 1570000003 An.  PENA SARANA INFORMATIKA
 <br>
 <b>Rp. 250.000</b>

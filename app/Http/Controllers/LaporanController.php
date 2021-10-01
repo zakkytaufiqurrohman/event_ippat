@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\LaporanScan;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
@@ -13,7 +12,6 @@ use App\Models\Pengda;
 use App\Models\Data;
 use App\Models\Laporan;
 use App\Models\Scan;
-use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class LaporanController extends Controller
@@ -59,7 +57,7 @@ class LaporanController extends Controller
                 $pengda = $request->id;
             };
             $data = DB::table('scans')->leftJoin("pendaftars",'pendaftars.id','scans.pendaftars_id')
-            ->select('pengdas.nama as pengda','scans.*','pendaftars.*')
+            ->select('pengdas.nama as pengda','scans.*','pendaftars.nama','pendaftars.pengda_id','pendaftars.no_sk as no')
             ->leftJoin('pengdas','pendaftars.pengda_id','pengdas.id')
             ->where('pendaftars.pengda_id','like',$pengda)->where('scans.scan',$request->scan)->get();
             return Datatables::of($data)
@@ -89,7 +87,7 @@ class LaporanController extends Controller
                     ->editColumn('sk', function($row) {
                         $sk = '';
                         
-                        $sk .= Crypt::decryptString($row->no_sk);
+                        $sk .= Crypt::decryptString($row->no);
                             
                         
                         return $sk;
@@ -102,16 +100,10 @@ class LaporanController extends Controller
 
     public function destroy(Request $request)
     {
-        //
+        
         $data = Scan::find($request->id);
         $data->delete();
 
         return response()->json(['status' => 'success', 'message' => 'Berhasil menghapus']);
-    }
-
-    public function export(Request $request)
-    {
-        //
-        return Excel::download(new LaporanScan(1,1), 'siswa.xlsx');
     }
 }

@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>IPPAT &mdash; E-card</title>
 
     <!-- General CSS Files -->
@@ -49,12 +48,12 @@
                         {{$data->no_sk}}
                       </p>
                       <p tyle="margin-top:0px" >
-                      {{$data->ktp}}
+                      No Urut : <span class="badge badge-primary">{{$data->id}}</span>
                       </p>
 					  <hr style="height:2px; width:95%; border-width:0; color:red; background-color:green">
 
-                      <button type='submit' class="btn btn-primary mt-4">Daftar Ulang</button>
-                      <a href="#" class="mt-4 bb">Need Help?</a>
+                      <button type='submit' id="btn-submit" class="btn btn-primary mt-4">Daftar Ulang</button>
+                      <a href="https://api.whatsapp.com/send?phone=6281901463500" class="mt-4 bb">Butuh Bantuan?</a>
                     </div>
                     </form>
                   </div>
@@ -86,17 +85,18 @@
                   "_token": "{{ csrf_token() }}"
                 },
                 beforeSend() {
-                    $('#icon-submit').addClass('fa-spinner');
-                    $('#btn-submit').attr('disabled',true);
+                    // $('#icon-submit').addClass('fa-spinner');
+                    $('#btn-submit').addClass("btn-progress");
                 },
                 complete(){
-                    $('#icon-submit').removeClass('fa-spinner');
+                    // $('#icon-submit').removeClass('fa-spinner');
+                    $("#btn-submit").removeClass("btn-progress");
                     $('#btn-submit').attr('disabled',false);
                 },
                 success(result){
                     swal({
                         icon: result.status,
-                        title: 'Ooops...',
+                        title: 'Selamat',
                         text: result.message
                     });
                 },

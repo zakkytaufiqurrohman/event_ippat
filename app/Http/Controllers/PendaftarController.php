@@ -175,9 +175,9 @@ class PendaftarController extends Controller
         try{
             $user = Pendaftar::find($request->id);
             $user->update([
-                'nama' => $request->nama,
-                'wa' => $request->wa,
-                'email' => $request->email,
+                'nama' => Crypt::encryptString($request->nama),
+                'wa' => Crypt::encryptString($request->wa),
+                'email' => Crypt::encryptString($request->email),
             ]);
             DB::commit();
             

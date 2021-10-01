@@ -41,7 +41,7 @@ class RegisterController extends Controller
 
     public function register(Request $request){
 
-        $data = Data::where('pengda_id',$request->pengda)->where('nick_name',$request->nama)->first();
+        $data = Data::where('pengda_id',$request->pengda)->where('nick_name',strtolower($request->nama))->first();
         if(empty($data)){
             return response()->json(['status' => 'error', 'message' => 'Maaf Anda Tidak Terdaftar Hub Panitia']);
         }

@@ -22,7 +22,22 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <button class="btn btn-md btn-primary" onclick="OpenModalAdd()"><i class='fa fa-plus'></i>&nbsp;Tambah</button>
+            <div class="form-group row" style="margin-left: 1px;">
+                    <div class="col-lg-2">
+                            <select class="form-control" width="50px"  name="waktu" id="waktu">
+                                <option value="">All</option>
+                                @foreach($pengdas as $pengda)
+                                    <option value="{{$pengda->id}}">{{$pengda->nama}}</option>
+                                @endforeach
+                            </select>
+                    </div>
+                    <div class="col-lg-8">
+                    </div>
+                    <div class="col-lg-2">
+                    <button class="btn btn-md btn-primary" onclick="OpenModalAdd()"><i class='fa fa-plus'></i>&nbsp;Tambah</button>
+                    </div>
+                </div>
+                <!-- <button class="btn btn-md btn-primary" onclick="OpenModalAdd()"><i class='fa fa-plus'></i>&nbsp;Tambah</button> -->
                 <div class="table-responsive mt-4">
                     <table class="table table-striped table-bordered" id="table-data">
                         <thead>
@@ -199,12 +214,17 @@
             
         });
 
-        function GetData(){
+        function GetData(id){
             $('#table-data').DataTable({
                 processing: true,
                 serverSide: true,
                 destroy: true,
-                ajax: "{{ route('pendaftar.data') }}",
+                ajax: {
+                    url: "{{ route('pendaftar.data') }}",
+                    data: {
+                        id: id
+                    }
+                },
                 columns: [
                     {data: 'DT_RowIndex', name: 'no', "width": "2%", orderable: false, searchable: false},
                     {data: 'pengda', name: 'nama'},
@@ -450,6 +470,11 @@
                 }
             });
         }
+
+        $("#waktu").change(function(){
+            var id = $(this).val();
+            GetData(id);
+        });
 
         
     </script>

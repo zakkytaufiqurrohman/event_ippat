@@ -23,9 +23,9 @@ class LaporanController extends Controller
         // $oke = Scan::with(["pendaftar" => function($q){
         //     $q->where('pendaftars.pengda_id', '=', 1);
         // }])->get();
-        $oke = Scan::with('pendaftaran')->get();
+        // $oke = Scan::with('pendaftaran')->get();
 
-        dd($oke);
+        // dd($oke);
 
         if(Auth::user()->level == 1 || Auth::user()->level == 2 || Auth::user()->level == 3 ){
             $pengdas = Pengda::all();

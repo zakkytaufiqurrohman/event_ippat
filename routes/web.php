@@ -11,6 +11,8 @@ use App\Http\Controllers\ScanController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LiveController;
 use App\Http\Controllers\LaporanController;
+use Illuminate\Support\Env;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,12 +24,14 @@ use App\Http\Controllers\LaporanController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/login', function () {
     return view('auth.login');
+});
+
+Route::name('scans')->prefix('scans')->group(function(){
+    Route::get('/get/{id}', [ScanController::class,'index']);
+    Route::get('/daftar_ulang', [ScanController::class,'daftar_ulang'])->name('.daftar_ulang');
+    Route::post('/daftar_ulang', [ScanController::class, 'daftar_ulang_store_guest'])->name('.daftar_ulang');
 });
 
 Route::get('/login', [LoginController::class,'index'])->name('login');

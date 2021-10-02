@@ -13,13 +13,20 @@ use App\Mail\SendEmail;
 use Illuminate\Support\Facades\Mail;
 
 use DB;
-
+use Illuminate\Support\Env;
 
 class RegisterController extends Controller
 {
     //
 
     public function index(){
+        if(Env("PENUTUPAN_ENV") == '1'){
+            return view('pembukaan');
+        }
+        else if (Env("PENUTUPAN_ENV") == '2'){
+            return view('penutupan');
+
+        }
         $pengdas = Pengda::all();
         return view('auth.register',compact('pengdas'));
     }
@@ -52,9 +59,9 @@ class RegisterController extends Controller
             'wa' => 'required|min:2',
             'email' => 'required|min:2',
             'ktp' =>'required|min:2',
-            'sk' => 'required|max:500|mimes:jpeg,jpg,png',
-            'foto' => 'required|max:500|mimes:jpeg,jpg,png',
-            'bukti_tf' => 'required|max:500|mimes:jpeg,jpg,png',
+            'sk' => 'required|max:1000|mimes:jpeg,jpg,png',
+            'foto' => 'required|max:1000|mimes:jpeg,jpg,png',
+            'bukti_tf' => 'required|max:1000|mimes:jpeg,jpg,png',
         ],[
             'pengda.required'=>'pengda Tidak Boleh Kosong',
             'wa.required'=>'NO WA Tidak Boleh Kosong',
@@ -70,9 +77,9 @@ class RegisterController extends Controller
             'sk.mimes' => 'Format harus jpeg,jpg,png ',
             'foto.mimes' => 'Format harus jpeg,jpg,png ',
             'bukti_tf.mimes' => 'Format harus jpeg,jpg,png ',
-            'bukti_tf.max' => 'Max file upload 500 Kbps',
-            'foto.max' => 'Max file upload 500 Kbps',
-            'sk.max' => 'Max file upload 500 Kbps'
+            'bukti_tf.max' => 'Max file upload 1000 Kbps',
+            'foto.max' => 'Max file upload 1000 Kbps',
+            'sk.max' => 'Max file upload 1000 Kbps'
             
         ]);
         DB::beginTransaction();

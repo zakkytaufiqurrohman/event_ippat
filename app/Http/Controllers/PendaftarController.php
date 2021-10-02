@@ -26,12 +26,17 @@ class PendaftarController extends Controller
     public function data(Request $request){
 
         if ($request->ajax()) {
-
-            $data = Pendaftar::all();
+            if(empty($request->id)) {
+                $pengda = '%';
+            } 
+            else {
+                $pengda = $request->id;
+            };
+            $data = Pendaftar::where('pengda_id','like',$pengda)->get();
 
             return Datatables::of($data)
                     ->editColumn('action', function ($row) {
-                        $wa = "https://api.whatsapp.com/send?phone=".$row->wa."&text=From: Panitia Ikatan Pejabat Pembuat Akta Tanah (IPPAT) E-ID Card Klik disini: " .env("HOST_ECARD", "www").$row->kode." NB: SIMPAN DULU NOMOR INI YA, SUPAYA BISA KLIK LINKNYA";
+                        $wa = "https://api.whatsapp.com/send?phone=".$row->wa."&text=From: Panitia Ikatan Pejabat Pembuat Akta Tanah (IPPAT) E-ID Card Klik disini: " .env("HOST_ECARD", "www").Crypt::encryptString($row->kode)." NB: SIMPAN DULU NOMOR INI YA, SUPAYA BISA KLIK LINKNYA";
                         $action = '';
                         $action .= "<a href='javascript:void(0)' class='btn btn-icon btn-primary' data-id='{$row->id}' onclick='Edit(this);'><i class='fa fa-edit'></i></a>&nbsp;";
                         $action .= "<a href='javascript:void(0)' class='btn btn-icon btn-danger'  data-id='{$row->id}' onclick='Delete(this);'><i class='fa fa-trash'></i></a>&nbsp;";

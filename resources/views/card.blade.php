@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>IPPAT &mdash; E-card</title>
-
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -48,11 +48,12 @@
                         {{$data->no_sk}}
                       </p>
                       <p tyle="margin-top:0px" >
-                      No Urut : <span class="badge badge-primary">{{$data->id}}</span>
+                      No Urut : <b>{{$data->id}}</b>
                       </p>
 					  <hr style="height:2px; width:95%; border-width:0; color:red; background-color:green">
-
+                    @if(env('PENUTUPAN_DAFTAR_ULG') == 0)
                       <button type='submit' id="btn-submit" class="btn btn-primary mt-4">Daftar Ulang</button>
+                    @endif
                       <a href="https://api.whatsapp.com/send?phone=6281901463500" class="mt-4 bb">Butuh Bantuan?</a>
                     </div>
                     </form>
@@ -76,12 +77,14 @@
 
       function SaveAbsent(){
             var kode = '{{ $data->kode }}'
+            var id = '{{ $data->id }}'
             $.ajax({
-                url: "{{ route('scan.daftar_ulang') }}",
+                url: "{{ route('scans.daftar_ulang') }}",
                 type: "POST",
                 dataType: "json",
                 data: {
                   'kode': kode,
+                  'id': id,
                   "_token": "{{ csrf_token() }}"
                 },
                 beforeSend() {

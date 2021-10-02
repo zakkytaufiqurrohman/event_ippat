@@ -12,6 +12,7 @@
     <!-- <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}"> -->
     <!-- <link href="ippat/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="ippat/css/sb-admin-2.min.css" rel="stylesheet"> -->
+    <meta http-equiv="refresh" content="1200" >
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/pricing/">
 
     

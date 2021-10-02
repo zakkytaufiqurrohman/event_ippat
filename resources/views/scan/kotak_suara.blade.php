@@ -30,7 +30,7 @@
                 @csrf
                 <div class="form-group">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control form-control-lg" name="kode" id="kode" placeholder="Scan Kode QR Anda" autocomplete="off">
+                        <input type="text" class="form-control form-control-lg" autofocus name="kode" id="kode" placeholder="Scan Kode QR Anda" autocomplete="off">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-lg btn-primary" id='btn-submit' type="button">
                                 <i class='fa' aria-hidden="true" id='icon-submit'></i>
@@ -83,12 +83,24 @@
                     swal({
                         icon: result.status,
                         title: 'Ooops...',
-                        text: result.message
+                        text: result.message,
+                        timer: 2000, //timeOut for auto-close
+                        buttons: {
+                            confirm: {
+                                text: "OK",
+                                value: true,
+                                visible: true,
+                                className: "",
+                                closeModal: true
+                            }
+                        }
                     });      
                     if(result.status=='success'){
                         $("#form-absen")[0].reset();
                         GetData(result.kode)
                     }
+                    $("#kode").val('')
+                    $("#kode").focus()
                 },
                 error(xhr, status, error) {
                     var err = eval('(' + xhr.responseText + ')');

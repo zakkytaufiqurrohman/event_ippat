@@ -11,7 +11,7 @@ class Scan extends Model
 
     protected $fillable = ['kode','pendaftars_id','scan','jam','date','user_id','created_at'];
 
-    public function pendaftars() {
+    public function pendaftaran() {
         return $this->belongsTo(Pendaftar::class,'pendaftars_id','id');
     }
 }

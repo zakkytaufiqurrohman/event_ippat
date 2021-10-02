@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LaporanScan;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
@@ -12,12 +13,20 @@ use App\Models\Pengda;
 use App\Models\Data;
 use App\Models\Laporan;
 use App\Models\Scan;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class LaporanController extends Controller
 {
     public function daftarUlang()
     {
+        // $oke = Scan::with(["pendaftar" => function($q){
+        //     $q->where('pendaftars.pengda_id', '=', 1);
+        // }])->get();
+        $oke = Scan::with('pendaftaran')->get();
+
+        dd($oke);
+
         if(Auth::user()->level == 1 || Auth::user()->level == 2 || Auth::user()->level == 3 ){
             $pengdas = Pengda::all();
             return view('laporan.daftar_ulang',compact('pengdas'));
@@ -105,5 +114,11 @@ class LaporanController extends Controller
         $data->delete();
 
         return response()->json(['status' => 'success', 'message' => 'Berhasil menghapus']);
+    }
+
+    public function export(Request $request)
+    {
+        //
+        return Excel::download(new LaporanScan(1,1), 'siswa.xlsx');
     }
 }

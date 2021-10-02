@@ -20,7 +20,11 @@ class LaporanScan implements FromCollection
     */
     public function collection()
     {
-        return Scan::with('pendaftars')->get();
+        return Scan::with(["pendaftar" => function($q){
+            $q->where('pendaftars.pengda_id', '=', 1);
+        }])->get();
+        
+        // Scan::with('pendaftars')->get();
         // where('pengda',$this->pengda)->where('scan',$this->scan)->get();
 
 

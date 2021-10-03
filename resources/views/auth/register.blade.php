@@ -85,21 +85,21 @@
 										<div class="form-group col-6">
 											<label for="sk" class="d-block">Sk</label>
 											<input id="sk" type="file" class="form-control" name="sk" required disabled >
-                                            <span>*Patikan foto terlihat jelas (Max 1000 Kbps jpg/png)</span>
+                                            <span>*Patikan foto terlihat jelas (Format jpeg/jpg/png)</span>
 										</div>
 									</div>
                                     <div class="row">
 										<div class="form-group col-6">
 											<label for="foto" class="d-block">Foto Diri</label>
 											<input id="foto" type="file" class="form-control" name="foto" required disabled >
-                                            <span>*Patikan foto terlihat jelas (Max 1000 Kbps jpg/png)</span>
+                                            <span>*Patikan foto terlihat jelas (Format jpeg/jpg/png)</span>
                                             <span>*Foto akan digunakan untuk verifikasi data</span>
 
 										</div>
 										<div class="form-group col-6">
 											<label for="bukti_tf" class="d-block">Bukti Transfer</label>
 											<input id="bukti_tf" type="file" class="form-control" name="bukti_tf" required disabled >
-                                            <span>*Patikan foto terlihat jelas (Max 1000 Kbps jpg/png)</span>
+                                            <span>*Patikan foto terlihat jelas (Format jpeg/jpg/png)</span>
 										</div>
 									</div>
 

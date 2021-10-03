@@ -59,9 +59,9 @@ class RegisterController extends Controller
             'wa' => 'required|min:2',
             'email' => 'required|min:2',
             'ktp' =>'required|min:2',
-            'sk' => 'required|max:1000|mimes:jpeg,jpg,png',
-            'foto' => 'required|max:1000|mimes:jpeg,jpg,png',
-            'bukti_tf' => 'required|max:1000|mimes:jpeg,jpg,png',
+            'sk' => 'required|mimes:jpeg,jpg,png',
+            'foto' => 'required|mimes:jpeg,jpg,png',
+            'bukti_tf' => 'required|mimes:jpeg,jpg,png',
         ],[
             'pengda.required'=>'pengda Tidak Boleh Kosong',
             'wa.required'=>'NO WA Tidak Boleh Kosong',

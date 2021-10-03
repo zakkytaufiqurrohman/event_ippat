@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Exports\LaporanScan;
 use Illuminate\Http\Request;
 use DB;
+use PDFS;
+
 use Auth;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
@@ -14,19 +16,23 @@ use App\Models\Data;
 use App\Models\Laporan;
 use App\Models\Scan;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpParser\Node\Expr\AssignOp\ShiftLeft;
 use Yajra\DataTables\DataTables;
 
 class LaporanController extends Controller
 {
     public function daftarUlang()
     {
-        // $oke = Scan::with(["pendaftar" => function($q){
-        //     $q->where('pendaftars.pengda_id', '=', 1);
-        // }])->get();
-        // $oke = Scan::with('pendaftaran')->get();
-
-        // dd($oke);
-
+        // $oke = Scan::with(["pendaftaran" => function($q){
+        //     $q->where('pendaftars.pengda_id',2);
+        //     // $q->select('nick_name');
+        // }])->where('scan',3)->first();
+        // $oke = Scan::with('pendaftaran')->first();
+        // $oke = DB::table('scans')->
+        // select('pendaftars.nama')->
+        // leftJoin('pendaftars','pendaftars.id','scans.pendaftars_id')->first();
+        // echo Crypt::decryptString($oke->nama);
+        // die;
         if(Auth::user()->level == 1 || Auth::user()->level == 2 || Auth::user()->level == 3 ){
             $pengdas = Pengda::all();
             return view('laporan.daftar_ulang',compact('pengdas'));
@@ -116,9 +122,24 @@ class LaporanController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Berhasil menghapus']);
     }
 
-    public function export(Request $request)
+    public function export($id)
     {
-        //
-        return Excel::download(new LaporanScan(1,1), 'siswa.xlsx');
+        // return $id;
+        // return Excel::download(new LaporanScan(1,1), 'siswa.xlsx');
+        $params = explode(':',$id);
+        if($params[0] == 0 || $params[0] =='0' ){
+            $pengda = '%';
+        }
+        else {
+            $pengda = $params[0];
+        }
+        $oke = DB::table('scans')
+        ->select('pendaftars.nama','pengdas.nama as pengda','pendaftars.no_sk','scans.*')
+        ->join('pendaftars','pendaftars.id','scans.pendaftars_id')
+        ->join('pengdas','pengdas.id','pendaftars.pengda_id')
+        ->where('pendaftars.pengda_id','like',$pengda)->where('scan','like',$params[1])->get();
+
+    	$pdf = PDFS::loadview('scan.laporan_scan',['datas'=>$oke,'scan'=>$params[1]]);
+    	return $pdf->download('laporan-scan.pdf');
     }
 }

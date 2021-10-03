@@ -3,12 +3,15 @@
 namespace App\Exports;
 
 use App\Models\Scan;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class LaporanScan implements FromCollection
 {
     protected $pengda;
     protected $scan;
+    protected $datas = [];
     public function __construct($pengda,$scan)
     {
         $this->pengda = $pengda;
@@ -20,9 +23,10 @@ class LaporanScan implements FromCollection
     */
     public function collection()
     {
-        return Scan::with(["pendaftar" => function($q){
-            $q->where('pendaftars.pengda_id', '=', 1);
-        }])->get();
+        $datas =  $oke = DB::table('scans')->
+        select("pendaftars.nama")->
+        leftJoin('pendaftars','pendaftars.id','scans.pendaftars_id')->get();
+        return $datas;
         
         // Scan::with('pendaftars')->get();
         // where('pengda',$this->pengda)->where('scan',$this->scan)->get();
@@ -32,5 +36,14 @@ class LaporanScan implements FromCollection
         // ->select(DB::raw("Crypt::decryptString('pendaftars.nama'))"))
         // ->join('pendaftars','pendaftars.id','scans.pendaftars_id')->
         // where('pendaftars.pengda_id',$this->pengda)->where('scan',$this->scan)->get();
+    }
+
+    private $count = 0;
+
+    public function map($datas): array
+    {
+        return [
+            \Crypt::decryptString($datas['nama'])
+        ];
     }
 }

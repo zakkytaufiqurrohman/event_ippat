@@ -125,7 +125,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/daftar_ulang', [LaporanController::class,'daftarUlang'])->name('.daftar_ulang');
         Route::get('/surat_suara', [LaporanController::class,'suratSuara'])->name('.surat_suara');
         Route::get('/kotak_suara', [LaporanController::class,'KotakSuara'])->name('.kotak_suara');
-        Route::get('/export', [LaporanController::class,'export'])->name('.export');
+        Route::get('/export/{id}', [LaporanController::class,'export'])->name('.export');
 
         Route::delete('/', [LaporanController::class, 'destroy'])->name('.delete');
         Route::get('/data', [LaporanController::class,'data'])->name('.data');

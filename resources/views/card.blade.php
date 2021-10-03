@@ -99,7 +99,7 @@
                 success(result){
                     swal({
                         icon: result.status,
-                        title: 'Selamat',
+                        title: result.swal,
                         text: result.message
                     });
                 },

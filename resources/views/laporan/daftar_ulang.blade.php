@@ -32,7 +32,8 @@
                             </select>
                     </div>
                     <div class="col-lg-12">
-                        <a href='#' target='_blank' id="print-btn" class="btn btn-md btn-primary float-right"><i class='fa fa-print'></i>PDF</a>
+                        <?php $id = "0:1" ?>;
+                        <a href="{{route('laporan.export',$id)}}" target='_blank' id="print-btn" class="btn btn-md btn-primary float-right"><i class='fa fa-print'></i>PDF</a>
                     </div>
                 </div>
                 <div class="table-responsive mt-4">
@@ -149,8 +150,9 @@
         }
         $("#waktu").change(function(){
             var id = $(this).val();
+            ids = id+':'+1;
             var url = "{{ route('laporan.export', ':id') }}";
-            url = url.replace(':id',id);
+            url = url.replace(':id',ids);
             $('#print-btn').attr("href", url);
             GetData(id);
         });

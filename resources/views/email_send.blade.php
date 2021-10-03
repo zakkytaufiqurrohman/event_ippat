@@ -29,7 +29,7 @@ footer{bottom:0px;text-align: center;color: white;}
 </div>
 <br><div class="body">
 <h3>Halo, {{$details['name']}} !</h3>
-<h2>Terimakasih Anda Sudah bergabung di Event IPPAT Jateng</h2>
+<h2>Terimakasih Anda Sudah bergabung di Event Konferwil IPPAT Jateng</h2>
 <h4>ID Card akan dikirim 1x24 jam setelah proses verifikasi. 
 <br>Anda dapat melakukan pendaftaran ulang online melalui link yang tertera pada ID Card pada tanggal 22 Oktober pukul 09:00 WIB 
 <br>dan akan ditutup pada 23 Oktober pukul 09:00 WIB Jika dalam waktu 1x24 jam belum mendapatkan ID CARD bisa menghubungi 

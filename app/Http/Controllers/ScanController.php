@@ -91,14 +91,14 @@ class ScanController extends Controller
             $pendaftars = Pendaftar::where('kode',$request->kode)->get();
 
             if($pendaftars->count()<=0){
-                return response()->json(['status' => 'error', 'message' => 'Pendaftar Tidak Ditemukan!']);
+                return response()->json(['status' => 'error', 'message' => 'Pendaftar Tidak Ditemukan!','swal'=>'Opss']);
             }
 
             $scan = Scan::where('kode',$request->kode)
                             ->where('scan',1)->get();
 
             if($scan->count()>0){
-                return response()->json(['status' => 'warning', 'message' => 'Pendaftar Sudah Pernah Daftar Ulang!']); 
+                return response()->json(['status' => 'warning', 'message' => 'Pendaftar Sudah Pernah Daftar Ulang!','swal'=>'Opss']); 
             }
 
             $kode = Crypt::encryptString($request->kode);
@@ -112,7 +112,7 @@ class ScanController extends Controller
             ]);
             DB::commit();
             
-            return response()->json(['status' => 'success', 'message' => 'Berhasil Absen!', 'kode' => $kode]);
+            return response()->json(['status' => 'success', 'message' => 'Berhasil Absen!', 'kode' => $kode,'swal'=>'Selamat']);
         } catch(Exception $e){
 
             DB::rollback();
@@ -139,21 +139,21 @@ class ScanController extends Controller
             $pendaftars = Pendaftar::where('kode',$request->kode)->get();
 
             if($pendaftars->count()<=0){
-                return response()->json(['status' => 'error', 'message' => 'Pendaftar Tidak Ditemukan!']);
+                return response()->json(['status' => 'error', 'message' => 'Pendaftar Tidak Ditemukan!','swal'=>'Opss']);
             }
 
             $scan = Scan::where('kode',$request->kode)  
                             ->where('scan',1)->get();
 
             if($scan->count()<=0){
-                return response()->json(['status' => 'warning', 'message' => 'Pendaftar Belum Daftar Ulang!']); 
+                return response()->json(['status' => 'warning', 'message' => 'Pendaftar Belum Daftar Ulang!','swal'=>'Opss']); 
             }
 
             $scan = Scan::where('kode',$request->kode)
                             ->where('scan',2)->get();
             
             if($scan->count()>0){
-                return response()->json(['status' => 'warning', 'message' => 'Pendaftar Sudah Pernah Absen Surat Suara!']); 
+                return response()->json(['status' => 'warning', 'message' => 'Pendaftar Sudah Pernah Absen Surat Suara!','swal'=>'Selamat']); 
             }
 
             $kode = Crypt::encryptString($request->kode);
@@ -167,7 +167,7 @@ class ScanController extends Controller
             ]);
             DB::commit();
             
-            return response()->json(['status' => 'success', 'message' => 'Berhasil Absen!', 'kode' => $kode]);
+            return response()->json(['status' => 'success', 'message' => 'Berhasil Absen!', 'kode' => $kode,'swal'=>'Selamat']);
         } catch(Exception $e){
 
             DB::rollback();
@@ -194,28 +194,28 @@ class ScanController extends Controller
             $pendaftars = Pendaftar::where('kode',$request->kode)->get();
 
             if($pendaftars->count()<=0){
-                return response()->json(['status' => 'error', 'message' => 'Pendaftar Tidak Ditemukan!']);
+                return response()->json(['status' => 'error', 'message' => 'Pendaftar Tidak Ditemukan!','swal'=>'Opss']);
             }
 
             $scan = Scan::where('kode',$request->kode)  
                             ->where('scan',1)->get();
 
             if($scan->count()<=0){
-                return response()->json(['status' => 'warning', 'message' => 'Pendaftar Belum Daftar Ulang!']); 
+                return response()->json(['status' => 'warning', 'message' => 'Pendaftar Belum Daftar Ulang!','swal'=>'Opss']); 
             }
 
             $scan = Scan::where('kode',$request->kode)  
                             ->where('scan',2)->get();
 
             if($scan->count()<=0){
-                return response()->json(['status' => 'warning', 'message' => 'Pendaftar Belum Absen Surat Suara!']); 
+                return response()->json(['status' => 'warning', 'message' => 'Pendaftar Belum Absen Surat Suara!','swal'=>'Opss']); 
             }
 
             $scan = Scan::where('kode',$request->kode)
                             ->where('scan',3)->get();
             
             if($scan->count()>0){
-                return response()->json(['status' => 'warning', 'message' => 'Pendaftar Sudah Pernah Absen Kotak Suara!']); 
+                return response()->json(['status' => 'warning', 'message' => 'Pendaftar Sudah Pernah Absen Kotak Suara!','swal'=>'Opss']); 
             }
 
             $kode = Crypt::encryptString($request->kode);
@@ -229,7 +229,7 @@ class ScanController extends Controller
             ]);
             DB::commit();
             
-            return response()->json(['status' => 'success', 'message' => 'Berhasil Absen!', 'kode' => $kode]);
+            return response()->json(['status' => 'success', 'message' => 'Berhasil Absen!', 'kode' => $kode,'swal'=>'Selamat']);
         } catch(Exception $e){
 
             DB::rollback();

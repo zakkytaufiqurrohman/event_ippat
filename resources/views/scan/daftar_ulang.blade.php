@@ -82,7 +82,7 @@
                 success(result){
                     swal({
                         icon: result.status,
-                        title: 'Ooops...',
+                        title: result.swal,
                         text: result.message,
                         timer: 2000, //timeOut for auto-close
                         buttons: {

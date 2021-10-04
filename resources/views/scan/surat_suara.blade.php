@@ -8,7 +8,7 @@
         object-fit: cover;
     }
     .info-custom{
-        text-align: center;
+        text-align: left;
         color: #34395E;
     }
 </style>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
 
-                <div class="mt-5" id="info">
+                <div class="row mt-5" id="info">
                     
                 </div>
                 </form>
@@ -130,12 +130,16 @@
                     var data = result.data;
                     var html = '';
                     html += `
-                        <img src="{{ asset('upload/foto/${data.img_foto}') }}" alt="Photo" class="img-fluid rounded mx-auto d-block img-custom">
-                        <div class="info-custom mt-4">
-                            <h4>NIK : <span>${data.nik}</span></h4>
-                            <h4>No SK : <span>${data.no_sk}</span></h4>
-                            <h4>Nama : <span>${data.nama}</span></h4>
-                            <h4>Pengda : <span>${data.pengda}</span></h4>
+                        <div class="col-md-4">
+                            <img src="{{ asset('upload/foto/${data.img_foto}') }}" alt="Photo" class="img-fluid rounded mx-auto d-block img-custom">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="info-custom mt-4">
+                                <h4>NIK : <span>${data.nik}</span></h4>
+                                <h4>No SK : <span>${data.no_sk}</span></h4>
+                                <h4>Nama : <span>${data.nama}</span></h4>
+                                <h4>Pengda : <span>${data.pengda}</span></h4>
+                            </div>
                         </div>
                     `;
 

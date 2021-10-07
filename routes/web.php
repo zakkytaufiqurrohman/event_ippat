@@ -11,6 +11,8 @@ use App\Http\Controllers\ScanController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LiveController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\LapPendaftarController;
+
 use Illuminate\Support\Env;
 
 /*
@@ -69,6 +71,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/success', [RegisterController::class,'success'])->name('success');
 
 
+    });
+
+
+     // data pendaftar
+     Route::name('lap_pendaftar')->prefix('lap_pendaftars')->group(function(){
+        Route::get('/', [LapPendaftarController::class,'index']);
+        Route::get('/data', [LapPendaftarController::class,'data'])->name('.data');
+        Route::get('/export/{id}', [LapPendaftarController::class,'export'])->name('.export');
     });
 
     // data 

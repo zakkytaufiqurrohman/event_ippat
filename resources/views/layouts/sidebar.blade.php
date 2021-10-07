@@ -43,6 +43,9 @@
                     @endif
                 </ul>
         </li>
+        @if(\Auth::user()->level == 1 || \Auth::user()->level == 10 ||  \Auth::user()->level == 2 )                    
+            <li class="{{ (request()->is('*lap_pendaftars*')) ? 'active' : '' }}"><a class="nav-link" href="{{ route('lap_pendaftar') }}"><i class="fa fa-address-card"></i> <span>Lap Pendaftar</span></a></li>
+        @endif
         <li class="{{ (request()->is('lives*')) ? 'active' : '' }}"><a class="nav-link" href="{{route('lives')}}"><i class="fa fa-tv"></i> <span>Live Record</span></a></li>
         </ul>
       

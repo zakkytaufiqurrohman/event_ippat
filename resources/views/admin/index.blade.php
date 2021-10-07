@@ -100,6 +100,7 @@
                         <option value="3" > Scan 1</option>
                         <option value="4" > Scan 2</option>
                         <option value="5" > Scan 3</option>
+                        <option value="10" > Show Pendaftar</option>
 
                     </select>
                     <div class="invalid-feedback-custom"></div>
@@ -146,6 +147,7 @@
                         <option value="3" > Scan 1</option>
                         <option value="4" > Scan 2</option>
                         <option value="5" > Scan 3</option>
+                        <option value="10" > Show Pendaftar</option>
 
                     </select>
                     <div class="invalid-feedback-custom"></div>

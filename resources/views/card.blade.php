@@ -84,7 +84,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="{{ asset('node_modules/izitoast/dist/js/iziToast.min.js') }}"></script>
     <script src="{{ asset('node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>
-     <script src="{{ asset('modules/bootstrap/js/bootstrap.min.js') }}"></script>
+     <!-- <script src="{{ asset('modules/bootstrap/js/bootstrap.min.js') }}"></script> -->
     <script src="{{ asset('assets/js/custom.js')}}"></script>
     <script src="{{ asset('assets/js/scripts.js')}}"></script>
     <script>

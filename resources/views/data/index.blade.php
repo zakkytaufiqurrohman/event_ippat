@@ -23,7 +23,8 @@
         <div class="card">
             <div class="card-body">
                 <button class="btn btn-md btn-primary" onclick="OpenModalAdd()"><i class='fa fa-plus'></i>&nbsp;Tambah</button>
-                <button class="btn btn-md btn-success" onclick="importModal()"><i class='fa fa-download'></i>&nbsp;Import</button>
+                <button disabled class="btn btn-md btn-success" onclick="importModal()"><i class='fa fa-download'></i>&nbsp;Import</button>
+                <a href="{{route('data.export')}}" target='_blank' id="print-btn" class="btn btn-md btn-primary float-right"><i class='fa fa-print'></i>Excel</a>
 
                 <div class="table-responsive mt-4">
                     <table class="table table-striped table-bordered" id="table-data">
@@ -116,7 +117,7 @@
 
 <!-- Modal Edit -->
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-edit">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Edit Data pendaftar</h5>
@@ -128,9 +129,10 @@
             <div class="modal-body">
                 @csrf
                 @method('PUT')
+                <input type="hidden" class="form-control" name="id" id="id">
                 <div class="form-group form-role">
                     <label>Kanwil</label>
-                    <select class="form-control" name="pengda" id="kanwil_edit">
+                    <select class="form-control" name="pengda" id="pengda-edit">
                         @foreach($pengdas as $kanwil)
                         <option value="{{ $kanwil->id }}" > {{ $kanwil->nama }}</option>
                         @endforeach
@@ -138,9 +140,20 @@
                     <div class="invalid-feedback-custom"></div>
                 </div>
                 <div class="form-group">
+                    <label>Nick Name</label>
+                    <input type="text" class="form-control" name="nick_name" id="nick_name" placeholder="Nama tanpa gelar" autocomplete="off">
+                </div>
+                <div class="form-group">
                     <label>Nama</label>
-                    <input type="hidden" name="id" id="idEdit">
-                    <input type="text" class="form-control" name="nama" id="namaEdit" placeholder="Nama" autocomplete="off">
+                    <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama Dengan gelar" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>No SK</label>
+                    <input type="text" class="form-control" name="no_sk" id="no_sk" placeholder="" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Alamat</label>
+                    <input type="textarea" class="form-control" name="alamat" id="alamat" autocomplete="off">
                 </div>
             </div>
             <div class="modal-footer bg-whitesmoke br">
@@ -219,7 +232,7 @@
         function Edit(object){
             var id = $(object).data('id')
 
-            var url = "{{ route('pendaftar.edit', ':id') }}";
+            var url = "{{ route('data.edit', ':id') }}";
             url = url.replace(':id',id);
             
             $.ajax({
@@ -230,8 +243,12 @@
                     $('#modal-edit').modal('show');
                     var data = result['data'];
                     $('#modal-edit').find('input[name="id"]').val(data.id);
+                    $('#modal-edit').find('input[name="nick_name"]').val(data.nick_name);
                     $('#modal-edit').find('input[name="nama"]').val(data.nama);
-                    $('#kanwil_edit').val(data.pengda).change()
+                    $('#modal-edit').find('input[name="no_sk"]').val(data.no_sk);
+                    $('#modal-edit').find('input[name="alamat"]').val(data.alamat);
+                    console.log(data);
+                    $('#pengda-edit').val(data.pengda_id).change()
                 }
             });
         }
@@ -299,7 +316,7 @@
             var formData = $("#form-edit").serialize();
 
             var id = $('#idEdit').val();
-            var url = "{{ route('pendaftar.update', ':id') }}"
+            var url = "{{ route('data.update', ':id') }}"
             url = url.replace(':id',id);
 
             $.ajax({

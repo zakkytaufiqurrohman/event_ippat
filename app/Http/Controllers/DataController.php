@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Exports\DataPeserta;
 use App\Models\Pengda;
 use App\Models\Data;
 use DB;
@@ -9,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
 use App\Imports\DataImport;
+use App\Models\Sk;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Auth;
@@ -33,6 +36,8 @@ class DataController extends Controller
             return Datatables::of($data)
                     ->editColumn('action', function ($row) {
                         $action = '';
+                        $action .= "<a href='javascript:void(0)' class='btn btn-icon btn-primary' data-id='{$row->id}' onclick='Edit(this);'><i class='fa fa-edit'></i></a>&nbsp;";
+
                         $action .= "<a href='javascript:void(0)' class='btn btn-icon btn-danger'  data-id='{$row->id}' onclick='Delete(this);'><i class='fa fa-trash'></i></a>&nbsp;";
 
 
@@ -152,5 +157,52 @@ class DataController extends Controller
         $data->delete();
 
         return response()->json(['status' => 'success', 'message' => 'Berhasil menghapus']);
+    }
+
+    public function export()
+    {   
+        return Excel::download(new DataPeserta(), 'DataPeserta.xlsx');
+    }
+
+    public function edit($id)
+    {
+        //
+        $user = Sk::find($id);
+        return response()->json(['status' => 'success', 'message' => 'Berhasil mengambil data!', 'data' => $user]);
+    }
+
+    public function update(Request $request)
+    {
+        $validated = $request->validate([
+            'pengda' => 'required',
+            'nick_name' => "required|unique:sk,nick_name,{$request->id},id",
+            'no_sk' => 'required|unique:sk,no_sk',
+            'alamat' => 'required',
+        ],[
+            'pengda.required' => 'Pengda tidak boleh kosong',
+            'nama.required' => 'nama tidak boleh kosong',
+            'no_sk.required' => 'no sk tidak boleh kosong',
+            'alamat.required' => 'alamat tidak boleh kosong',
+        ]);
+
+        DB::beginTransaction();
+        try{
+            $user = Data::find($request->id);
+            $user->update([
+                'pengda_id' => $request->pengda,
+                'nama' =>  Crypt::encryptString($request->nama),
+                'no_sk' => Crypt::encryptString($request->no_sk),
+                'alamat' =>  Crypt::encryptString($request->alamat),
+                'nick_name' => $request->nick_name,
+            ]);
+            DB::commit();
+            
+            return response()->json(['status' => 'success', 'message' => 'Berhasil mengubah data!']);
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+        }
     }
 }

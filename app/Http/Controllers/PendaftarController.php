@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LaporanScan;
 use App\Models\Pengda;
 use App\Models\Pendaftar;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Crypt;
 use DB;
 use DataTables;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PendaftarController extends Controller
 {
@@ -227,5 +229,16 @@ class PendaftarController extends Controller
         $Pendaftar->delete();
 
         return response()->json(['status' => 'success', 'message' => 'Berhasil menghapus']);
+    }
+
+    public function export($id)
+    {   
+        if($id == '0'){
+            $pengda = '%';
+        }
+        else {
+            $pengda = $id;
+        }
+        return Excel::download(new LaporanScan($pengda), 'Pendaftar.xlsx');
     }
 }

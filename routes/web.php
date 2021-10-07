@@ -62,6 +62,8 @@ Route::middleware('auth')->group(function () {
         Route::put('/', [PendaftarController::class, 'update'])->name('.update');
         Route::get('/data', [PendaftarController::class,'data'])->name('.data');
         Route::get('/{id}/edit', [PendaftarController::class,'edit'])->name('.edit');
+        Route::get('/export/{id}', [PendaftarController::class,'export'])->name('.export');
+
         Route::post('/cek_nama', [RegisterController::class,'cekNama'])->name('.cek_nama');
         Route::post('/register', [RegisterController::class,'register'])->name('.register');
         Route::get('/success', [RegisterController::class,'success'])->name('success');
@@ -78,7 +80,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/data', [DataController::class,'data'])->name('.data');
         Route::post('/import', [DataController::class,'import'])->name('.import');
         Route::get('/{id}/edit', [DataController::class,'edit'])->name('.edit');
-
+        Route::get('/export', [DataController::class,'export'])->name('.export');
 
     });
 

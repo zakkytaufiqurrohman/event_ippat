@@ -7,20 +7,37 @@
     <title>IPPAT &mdash; E-card</title>
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 
-    <!-- CSS Libraries -->
-    <link rel="stylesheet" href="{{ asset('node_modules/bootstrap-social/bootstrap-social.css') }}">
 
     <!-- Template CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
-    <link rel="stylesheet" href="{{ asset('node_modules/izitoast/dist/css/iziToast.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('node_modules/izitoast/dist/css/iziToast.min.css') }}"> -->
+
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="{{ asset('node_modules/bootstrap/css/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('node_modules/fontawesome/css/all.min.css')}}">
+
+  <!-- CSS Libraries -->
+
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="{{ asset('assets/css/style.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/css/components.css')}}">
+<!-- Start GA -->
 </head>
 
 <body>
     <div id="app">
         <section class="section">
+            <div class="alert alert-warning alert-dismissible show fade">
+                      <div class="alert-body">
+                        <button class="close" data-dismiss="alert">
+                          <span>&times;</span>
+                        </button>
+                       <strong><i class="fa fa-exclamation-triangle"></i> Waspada Covid-19</strong> &mdash; Selalu berdoa, menjaga kebersihan diri, lakukan social distancing dan kenakan masker dengan benar. <a href="http://covid19.go.id" target="_blank" class="text-purple">Pelajari <i class="fa fa-angle-right"></i></a>
+                      </div>
+            </div>
             <div class="container mt-5">
                 <div class="row">
                 <div class="col-12 col-md-3 col-sm-12">
@@ -28,7 +45,7 @@
                 <div class="col-12 col-md-6 col-sm-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4><center>E-CARD RAKORWIL IPPAT JATENG 2021</center></h4>
+                    <h4>E-CARD KONFERWIL IPPAT JATENG 2021</h4>
                   </div>
                   <div class="card-body">
                     <form method="POST" action="javascript:void(0)" id="form-absen">
@@ -67,6 +84,9 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="{{ asset('node_modules/izitoast/dist/js/iziToast.min.js') }}"></script>
     <script src="{{ asset('node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>
+     <script src="{{ asset('modules/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js')}}"></script>
+    <script src="{{ asset('assets/js/scripts.js')}}"></script>
     <script>
       $(function () {
           $("#form-absen").on("submit", function(e) {

@@ -31,9 +31,13 @@
                                 @endforeach
                             </select>
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-7">
+                        
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
+                        <?php $id = "0" ?>;
+                        <a href="{{route('pendaftar.export',$id)}}" target='_blank' id="print-btn" class="btn btn-md btn-primary float-right"><i class='fa fa-print'></i>Excel</a>
+     
                     <button class="btn btn-md btn-primary" onclick="OpenModalAdd()"><i class='fa fa-plus'></i>&nbsp;Tambah</button>
                     </div>
                 </div>
@@ -473,6 +477,9 @@
 
         $("#waktu").change(function(){
             var id = $(this).val();
+            var url = "{{ route('pendaftar.export', ':id') }}";
+            url = url.replace(':id',id);
+            $('#print-btn').attr("href", url);
             GetData(id);
         });
 

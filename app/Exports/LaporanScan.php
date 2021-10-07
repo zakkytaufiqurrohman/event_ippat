@@ -2,20 +2,20 @@
 
 namespace App\Exports;
 
+use App\Models\Pendaftar;
 use App\Models\Scan;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
-class LaporanScan implements FromCollection
+class LaporanScan implements FromCollection,WithMapping,WithHeadings
 {
     protected $pengda;
-    protected $scan;
-    protected $datas = [];
-    public function __construct($pengda,$scan)
+    public function __construct($pengda)
     {
         $this->pengda = $pengda;
-        $this->scan = $scan;
         
     }
     /**
@@ -23,27 +23,34 @@ class LaporanScan implements FromCollection
     */
     public function collection()
     {
-        $datas =  $oke = DB::table('scans')->
-        select("pendaftars.nama")->
-        leftJoin('pendaftars','pendaftars.id','scans.pendaftars_id')->get();
-        return $datas;
-        
-        // Scan::with('pendaftars')->get();
-        // where('pengda',$this->pengda)->where('scan',$this->scan)->get();
-
-
-        // return DB::table('scans')
-        // ->select(DB::raw("Crypt::decryptString('pendaftars.nama'))"))
-        // ->join('pendaftars','pendaftars.id','scans.pendaftars_id')->
-        // where('pendaftars.pengda_id',$this->pengda)->where('scan',$this->scan)->get();
+       return Pendaftar::with('getPengda:id,nama')->where('pengda_id','like',$this->pengda)->get();
+    }
+    private $i = 1;
+    public function map($registration) : array {
+        return [
+            $this->i++,
+            $registration->getPengda->nama,
+            $registration->nama,
+            $registration->email,
+            $registration->kode,
+            $registration->wa,
+            $registration->no_sk,
+            $registration->ktp,
+        ] ;
+ 
+ 
     }
 
-    private $count = 0;
-
-    public function map($datas): array
-    {
+    public function headings() : array {
         return [
-            \Crypt::decryptString($datas['nama'])
-        ];
+           '#',
+           'Pengda',
+           'Nama',
+           'Email',
+           'Kode',
+           'Wa',
+           'Sk',
+           'KTP'
+        ] ;
     }
 }
